@@ -1,0 +1,2378 @@
+{
+  "metadata": {
+    "source": "Synthetic",
+    "is_synthetic": true,
+    "generator_version": "1.0.0",
+    "generation_seed": 302,
+    "safety": {
+      "ip_policy": "RFC 5737 documentation ranges only",
+      "domain_policy": "IANA example domains only"
+    },
+    "counts": {
+      "Organization": 12,
+      "Vulnerability": 12,
+      "IP": 15,
+      "Domain": 15,
+      "relationships": 78
+    }
+  },
+  "nodes": [
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-001",
+      "properties": {
+        "organization_id": "SYN-ORG-001",
+        "name": "Synthetic Demo Organization 01",
+        "industry": "Education",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-002",
+      "properties": {
+        "organization_id": "SYN-ORG-002",
+        "name": "Synthetic Demo Organization 02",
+        "industry": "Finance",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-003",
+      "properties": {
+        "organization_id": "SYN-ORG-003",
+        "name": "Synthetic Demo Organization 03",
+        "industry": "Healthcare",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-004",
+      "properties": {
+        "organization_id": "SYN-ORG-004",
+        "name": "Synthetic Demo Organization 04",
+        "industry": "Manufacturing",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-005",
+      "properties": {
+        "organization_id": "SYN-ORG-005",
+        "name": "Synthetic Demo Organization 05",
+        "industry": "Education",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-006",
+      "properties": {
+        "organization_id": "SYN-ORG-006",
+        "name": "Synthetic Demo Organization 06",
+        "industry": "Finance",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-007",
+      "properties": {
+        "organization_id": "SYN-ORG-007",
+        "name": "Synthetic Demo Organization 07",
+        "industry": "Healthcare",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-008",
+      "properties": {
+        "organization_id": "SYN-ORG-008",
+        "name": "Synthetic Demo Organization 08",
+        "industry": "Manufacturing",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-009",
+      "properties": {
+        "organization_id": "SYN-ORG-009",
+        "name": "Synthetic Demo Organization 09",
+        "industry": "Education",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-010",
+      "properties": {
+        "organization_id": "SYN-ORG-010",
+        "name": "Synthetic Demo Organization 10",
+        "industry": "Finance",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-011",
+      "properties": {
+        "organization_id": "SYN-ORG-011",
+        "name": "Synthetic Demo Organization 11",
+        "industry": "Healthcare",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Organization",
+      "id": "SYN-ORG-012",
+      "properties": {
+        "organization_id": "SYN-ORG-012",
+        "name": "Synthetic Demo Organization 12",
+        "industry": "Manufacturing",
+        "country": "Synthetic",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-001",
+      "properties": {
+        "cve_id": "SYN-VULN-001",
+        "name": "Synthetic Vulnerability Scenario 01",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Low",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-002",
+      "properties": {
+        "cve_id": "SYN-VULN-002",
+        "name": "Synthetic Vulnerability Scenario 02",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Medium",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-003",
+      "properties": {
+        "cve_id": "SYN-VULN-003",
+        "name": "Synthetic Vulnerability Scenario 03",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "High",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-004",
+      "properties": {
+        "cve_id": "SYN-VULN-004",
+        "name": "Synthetic Vulnerability Scenario 04",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Critical",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-005",
+      "properties": {
+        "cve_id": "SYN-VULN-005",
+        "name": "Synthetic Vulnerability Scenario 05",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Low",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-006",
+      "properties": {
+        "cve_id": "SYN-VULN-006",
+        "name": "Synthetic Vulnerability Scenario 06",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Medium",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-007",
+      "properties": {
+        "cve_id": "SYN-VULN-007",
+        "name": "Synthetic Vulnerability Scenario 07",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "High",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-008",
+      "properties": {
+        "cve_id": "SYN-VULN-008",
+        "name": "Synthetic Vulnerability Scenario 08",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Critical",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-009",
+      "properties": {
+        "cve_id": "SYN-VULN-009",
+        "name": "Synthetic Vulnerability Scenario 09",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Low",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-010",
+      "properties": {
+        "cve_id": "SYN-VULN-010",
+        "name": "Synthetic Vulnerability Scenario 10",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Medium",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-011",
+      "properties": {
+        "cve_id": "SYN-VULN-011",
+        "name": "Synthetic Vulnerability Scenario 11",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "High",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Vulnerability",
+      "id": "SYN-VULN-012",
+      "properties": {
+        "cve_id": "SYN-VULN-012",
+        "name": "Synthetic Vulnerability Scenario 12",
+        "description": "Controlled demonstration record; not a real CVE.",
+        "severity": "Critical",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-001",
+      "properties": {
+        "ip_id": "SYN-IP-001",
+        "address": "192.0.2.11",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-002",
+      "properties": {
+        "ip_id": "SYN-IP-002",
+        "address": "198.51.100.12",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-003",
+      "properties": {
+        "ip_id": "SYN-IP-003",
+        "address": "203.0.113.13",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-004",
+      "properties": {
+        "ip_id": "SYN-IP-004",
+        "address": "192.0.2.14",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-005",
+      "properties": {
+        "ip_id": "SYN-IP-005",
+        "address": "198.51.100.15",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-006",
+      "properties": {
+        "ip_id": "SYN-IP-006",
+        "address": "203.0.113.16",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-007",
+      "properties": {
+        "ip_id": "SYN-IP-007",
+        "address": "192.0.2.17",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-008",
+      "properties": {
+        "ip_id": "SYN-IP-008",
+        "address": "198.51.100.18",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-009",
+      "properties": {
+        "ip_id": "SYN-IP-009",
+        "address": "203.0.113.19",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-010",
+      "properties": {
+        "ip_id": "SYN-IP-010",
+        "address": "192.0.2.20",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-011",
+      "properties": {
+        "ip_id": "SYN-IP-011",
+        "address": "198.51.100.21",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-012",
+      "properties": {
+        "ip_id": "SYN-IP-012",
+        "address": "203.0.113.22",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-013",
+      "properties": {
+        "ip_id": "SYN-IP-013",
+        "address": "192.0.2.23",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-014",
+      "properties": {
+        "ip_id": "SYN-IP-014",
+        "address": "198.51.100.24",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "IP",
+      "id": "SYN-IP-015",
+      "properties": {
+        "ip_id": "SYN-IP-015",
+        "address": "203.0.113.25",
+        "country": "Documentation Range",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-001",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-001",
+        "name": "c2-demo-01.example.com",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-002",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-002",
+        "name": "c2-demo-02.example.net",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-003",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-003",
+        "name": "c2-demo-03.example.org",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-004",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-004",
+        "name": "c2-demo-04.example.com",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-005",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-005",
+        "name": "c2-demo-05.example.net",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-006",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-006",
+        "name": "c2-demo-06.example.org",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-007",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-007",
+        "name": "c2-demo-07.example.com",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-008",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-008",
+        "name": "c2-demo-08.example.net",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-009",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-009",
+        "name": "c2-demo-09.example.org",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-010",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-010",
+        "name": "c2-demo-10.example.com",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-011",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-011",
+        "name": "c2-demo-11.example.net",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-012",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-012",
+        "name": "c2-demo-12.example.org",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-013",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-013",
+        "name": "c2-demo-13.example.com",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-014",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-014",
+        "name": "c2-demo-14.example.net",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    },
+    {
+      "label": "Domain",
+      "id": "SYN-DOMAIN-015",
+      "properties": {
+        "domain_id": "SYN-DOMAIN-015",
+        "name": "c2-demo-15.example.org",
+        "reputation": "Synthetic demonstration only",
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "id": "SYN-REL-TARGETS-001",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0007"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-001"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-001"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-002",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0010"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-002"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-002"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-003",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0016"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-003"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-003"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-004",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0027"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-004"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-004"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-005",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0032"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-005"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-005"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-006",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0034"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-006"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-006"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-007",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0035"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-007"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-007"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-008",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0045"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-008"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-008"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-009",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0046"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-009"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-009"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-010",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0047"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-010"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-010"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-011",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0049"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-011"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-011"
+      }
+    },
+    {
+      "id": "SYN-REL-TARGETS-012",
+      "type": "TARGETS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0050"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-012"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-TARGETS-012"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-013",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0007"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-001"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-013"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-014",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0002"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-001"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-014"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-015",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-001"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-001"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-015"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-016",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0010"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-002"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-016"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-017",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0005"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-002"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-017"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-018",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-002"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-002"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-018"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-019",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0016"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-003"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-019"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-020",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0006"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-003"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-020"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-021",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-003"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-003"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-021"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-022",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0027"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-004"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-022"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-023",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0012"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-004"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-023"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-024",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-004"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-004"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-024"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-025",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0032"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-005"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-025"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-026",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0013"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-005"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-026"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-027",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-005"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-005"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-027"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-028",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0034"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-006"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-028"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-029",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0020"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-006"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-029"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-030",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-006"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-006"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-030"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-031",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0035"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-007"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-031"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-032",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0021"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-007"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-032"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-033",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-007"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-007"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-033"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-034",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0045"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-008"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-034"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-035",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0029"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-008"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-035"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-036",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-008"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-008"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-036"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-037",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0046"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-009"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-037"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-038",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0032"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-009"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-038"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-039",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-009"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-009"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-039"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-040",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0047"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-010"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-040"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-041",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0039"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-010"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-041"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-042",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-010"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-010"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-042"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-043",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0049"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-011"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-043"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-044",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0057"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-011"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-044"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-045",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-011"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-011"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-045"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-046",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "ThreatActor",
+        "id": "G0050"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-012"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-046"
+      }
+    },
+    {
+      "id": "SYN-REL-EXPLOITS-047",
+      "type": "EXPLOITS",
+      "from": {
+        "label": "Malware",
+        "id": "S0069"
+      },
+      "to": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-012"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-EXPLOITS-047"
+      }
+    },
+    {
+      "id": "SYN-REL-AFFECTS-048",
+      "type": "AFFECTS",
+      "from": {
+        "label": "Vulnerability",
+        "id": "SYN-VULN-012"
+      },
+      "to": {
+        "label": "Organization",
+        "id": "SYN-ORG-012"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-AFFECTS-048"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-049",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0002"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-001"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-049"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-050",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-001"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-001"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-050"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-051",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0005"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-002"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-051"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-052",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-002"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-002"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-052"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-053",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0006"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-003"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-053"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-054",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-003"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-003"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-054"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-055",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0012"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-004"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-055"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-056",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-004"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-004"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-056"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-057",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0013"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-005"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-057"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-058",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-005"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-005"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-058"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-059",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0020"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-006"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-059"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-060",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-006"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-006"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-060"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-061",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0021"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-007"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-061"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-062",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-007"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-007"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-062"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-063",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0029"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-008"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-063"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-064",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-008"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-008"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-064"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-065",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0032"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-009"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-065"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-066",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-009"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-009"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-066"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-067",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0039"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-010"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-067"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-068",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-010"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-010"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-068"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-069",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0057"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-011"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-069"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-070",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-011"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-011"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-070"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-071",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0069"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-012"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-071"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-072",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-012"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-012"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-072"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-073",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0073"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-013"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-073"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-074",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-013"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-013"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-074"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-075",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0075"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-014"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-075"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-076",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-014"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-014"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-076"
+      }
+    },
+    {
+      "id": "SYN-REL-COMMUNICATES_WITH-077",
+      "type": "COMMUNICATES_WITH",
+      "from": {
+        "label": "Malware",
+        "id": "S0095"
+      },
+      "to": {
+        "label": "IP",
+        "id": "SYN-IP-015"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-COMMUNICATES_WITH-077"
+      }
+    },
+    {
+      "id": "SYN-REL-RESOLVES_TO-078",
+      "type": "RESOLVES_TO",
+      "from": {
+        "label": "IP",
+        "id": "SYN-IP-015"
+      },
+      "to": {
+        "label": "Domain",
+        "id": "SYN-DOMAIN-015"
+      },
+      "properties": {
+        "source": "Synthetic",
+        "source_id": "CyberTrace deterministic demo generator",
+        "is_synthetic": true,
+        "generator_version": "1.0.0",
+        "generation_seed": 302,
+        "relationship_id": "SYN-REL-RESOLVES_TO-078"
+      }
+    }
+  ]
+}

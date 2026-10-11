@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "sources": [
+    {
+      "name": "MITRE ATT&CK Enterprise",
+      "publisher": "The MITRE Corporation",
+      "release": "19.2",
+      "release_date": "2026-08-05",
+      "format": "STIX 2.1 JSON bundle",
+      "attack_spec_version": "3.3.0",
+      "download_url": "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack-19.2.json",
+      "release_page": "https://github.com/mitre-attack/attack-stix-data/releases/tag/v19.2",
+      "terms_url": "https://attack.mitre.org/resources/legal-and-branding/terms-of-use/",
+      "retrieved_at": "2026-09-25T11:10:15Z",
+      "local_path": "data/raw/enterprise-attack-19.2.json",
+      "size_bytes": 53835637,
+      "sha256": "dc1639caa5501d720e280cf1cbd8fbe009884a0c9b3e6e9ed9d0c25166c3d8f4",
+      "bundle_id": "bundle--6198013c-6f02-42a4-9713-38ea1301a1aa",
+      "object_count": 26086
+    }
+  ]
+}

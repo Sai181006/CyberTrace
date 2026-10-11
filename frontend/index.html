@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CyberTrace</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Threat intelligence graph</p>
+        <h1>CyberTrace</h1>
+      </div>
+      <div class="header-actions"><div id="connection" class="status"><span></span> Checking Neo4j</div><button id="logout" class="secondary" hidden>Sign out</button></div>
+    </header>
+
+    <section id="login-screen" class="login-screen" aria-labelledby="login-heading">
+      <form id="login-form" class="card login-card">
+        <p class="eyebrow">Local administrator</p><h2 id="login-heading">Sign in</h2>
+        <label>Username<input id="login-username" autocomplete="username" value="admin" required></label>
+        <label>Password<input id="login-password" type="password" autocomplete="current-password" required></label>
+        <button>Sign in</button><p id="login-error" class="error" role="alert"></p>
+      </form>
+    </section>
+
+    <nav class="tabs" aria-label="Primary navigation" role="tablist" hidden>
+      <button id="tab-dashboard" class="tab active" role="tab" aria-controls="dashboard" aria-selected="true" data-panel="dashboard">Dashboard</button>
+      <button id="tab-search" class="tab" role="tab" aria-controls="search" aria-selected="false" data-panel="search">Threat Search</button>
+      <button id="tab-explorer" class="tab" role="tab" aria-controls="explorer" aria-selected="false" data-panel="explorer">Graph Explorer</button>
+      <button id="tab-manage" class="tab" role="tab" aria-controls="manage" aria-selected="false" data-panel="manage">Manage Data</button>
+      <button id="tab-investigate" class="tab" role="tab" aria-controls="investigate" aria-selected="false" data-panel="investigate">Investigation</button>
+      <button id="tab-analytics" class="tab" role="tab" aria-controls="analytics" aria-selected="false" data-panel="analytics">Analytics</button>
+    </nav>
+
+    <main hidden>
+      <section id="dashboard" class="panel active" role="tabpanel" aria-labelledby="tab-dashboard">
+        <div class="section-heading">
+          <div><p class="eyebrow">Live database</p><h2>Intelligence overview</h2></div>
+          <button id="refresh-dashboard" class="secondary">Refresh</button>
+        </div>
+        <div id="stats" class="stat-grid"></div>
+        <div class="split">
+          <article class="card"><h3>Data provenance</h3><div id="provenance"></div></article>
+          <article class="card"><h3>Graph model</h3><p class="meta">Seven entity labels and six distinct relationship types connect imported ATT&amp;CK intelligence with clearly marked synthetic demonstration data. Live totals appear above.</p></article>
+        </div>
+      </section>
+
+      <section id="search" class="panel" role="tabpanel" aria-labelledby="tab-search">
+        <div class="section-heading"><div><p class="eyebrow">Find intelligence</p><h2>Threat search</h2></div></div>
+        <form id="search-form" class="toolbar">
+          <label class="sr-only" for="search-term">Search terms</label><input id="search-term" placeholder="Search actor, malware, technique, CVE, IP, domain…" required>
+          <label class="sr-only" for="search-type">Entity type</label><select id="search-type"><option value="">All entity types</option></select>
+          <button>Search</button>
+        </form>
+        <div id="search-results" class="results" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="explorer" class="panel" role="tabpanel" aria-labelledby="tab-explorer">
+        <div class="section-heading"><div><p class="eyebrow">Connected context</p><h2>Graph explorer</h2></div></div>
+        <form id="graph-form" class="toolbar">
+          <label class="sr-only" for="graph-type">Entity type</label><select id="graph-type"></select>
+          <label class="sr-only" for="graph-id">Stable ID</label><input id="graph-id" placeholder="Stable ID, e.g. G0006" required>
+          <button>Explore</button>
+        </form>
+        <article class="graph-card">
+          <svg id="graph" viewBox="0 0 900 520" role="img" aria-label="Entity relationship graph"></svg>
+          <div id="graph-details" class="graph-details">Choose an entity to display its immediate neighborhood.</div>
+          <div class="graph-list"><h3>Graph connections (keyboard accessible)</h3><ul id="graph-connections"></ul></div>
+        </article>
+      </section>
+
+      <section id="manage" class="panel" role="tabpanel" aria-labelledby="tab-manage">
+        <div class="section-heading"><div><p class="eyebrow">Synthetic data management</p><h2>Entities and relationships</h2></div></div>
+        <p class="notice">New entities and relationships are marked synthetic. Imported real ATT&amp;CK records are read-only. Updates and deletions show provenance for confirmation.</p>
+        <article class="card manage-block">
+          <h3>Entity</h3>
+          <form id="entity-form" class="form-grid">
+            <label>Entity type<select id="entity-type"></select></label>
+            <label><span id="entity-id-label">Stable ID</span><input id="entity-id" value="SYN-REVIEW-DEMO" required></label>
+            <div class="wide"><p id="entity-fields-help" class="meta"></p></div>
+            <label class="wide">Properties as JSON<textarea id="entity-properties" spellcheck="false">{"name":"ReviewDemoMalware","description":"Synthetic demonstration record","severity":"Medium"}</textarea></label>
+            <div class="actions wide"><button type="button" data-entity-action="create">Create</button><button type="button" class="secondary" data-entity-action="read">Read</button><button type="button" class="secondary" data-entity-action="update">Update</button><button type="button" class="danger" data-entity-action="delete">Delete</button></div>
+          </form>
+          <pre id="entity-output" class="output" aria-live="polite">Choose an entity type and stable ID.</pre>
+        </article>
+        <article class="card manage-block">
+          <h3>Relationship</h3>
+          <p class="meta">Choose an allowed direction and type. New links are synthetic even when an endpoint is a real imported entity.</p>
+          <form id="relationship-form" class="form-grid">
+            <label class="wide">Allowed pattern<select id="relationship-pattern"></select></label>
+            <label>From ID<input id="relationship-from-id" required></label>
+            <label>To ID<input id="relationship-to-id" required></label>
+            <div class="actions"><button type="button" id="relationship-create">Create link</button></div>
+            <label class="wide">Relationship ID for inspection or deletion<input id="relationship-id" placeholder="MANUAL-…"></label>
+            <div class="actions wide"><button type="button" class="secondary" id="relationship-read">Read link</button><button type="button" class="danger" id="relationship-delete">Delete link</button></div>
+          </form>
+          <pre id="relationship-output" class="output" aria-live="polite">Allowed patterns load after sign-in.</pre>
+        </article>
+      </section>
+
+      <section id="investigate" class="panel" role="tabpanel" aria-labelledby="tab-investigate">
+        <div class="section-heading"><div><p class="eyebrow">Multi-hop traversal</p><h2>Actor → Malware → IP → Domain</h2></div></div>
+        <form id="investigation-form" class="toolbar">
+          <label class="sr-only" for="actor-name">Threat actor name</label><input id="actor-name" placeholder="Threat actor name" required>
+          <button>Investigate</button>
+        </form>
+        <div id="investigation-results" class="results" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="analytics" class="panel" role="tabpanel" aria-labelledby="tab-analytics">
+        <div class="section-heading"><div><p class="eyebrow">Review 3 graph analytics</p><h2>Paths and PageRank</h2></div></div>
+        <article class="card analytics-block">
+          <h3>Shortest path</h3>
+          <p class="meta">Find up to six relationships between two entities. Each node and relationship retains its own provenance.</p>
+          <form id="path-form" class="form-grid">
+            <label>Start type<select id="path-from-type"></select></label>
+            <label>Start ID<input id="path-from-id" value="G0007" required></label>
+            <label>End type<select id="path-to-type"></select></label>
+            <label>End ID<input id="path-to-id" required></label>
+            <label>Maximum hops<input id="path-hops" type="number" min="1" max="6" value="6" required></label>
+            <div class="actions"><button>Find path</button></div>
+          </form>
+          <div id="path-results" class="results" role="status" aria-live="polite"></div>
+        </article>
+        <article class="card analytics-block">
+          <h3>PageRank</h3>
+          <p class="meta">Ranks graph prominence from directed relationships. Scores are not threat severity or danger scores.</p>
+          <form id="pagerank-form" class="toolbar">
+            <label>Data scope<select id="pagerank-scope"><option value="real">Real ATT&amp;CK records only</option><option value="all">Real and synthetic records</option></select></label>
+            <button>Calculate PageRank</button>
+          </form>
+          <div id="pagerank-results" class="results" role="status" aria-live="polite"></div>
+        </article>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status"></div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
