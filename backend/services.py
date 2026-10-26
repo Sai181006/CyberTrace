@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
+import re
 from typing import Any
 from uuid import uuid4
 
@@ -153,8 +154,9 @@ def search_entities(
         label_clause = f":{entity_spec(label).label}"
     query = (
         f"MATCH (n{label_clause}) "
-        "WHERE toLower(coalesce(n.name, n.address, n.cve_id, '')) "
-        "CONTAINS toLower($term) "
+        "WHERE toLower(coalesce(n.name, '')) CONTAINS toLower($term) "
+        "OR toLower(coalesce(n.address, '')) CONTAINS toLower($term) "
+        "OR toLower(coalesce(n.cve_id, '')) CONTAINS toLower($term) "
         "RETURN labels(n)[0] AS type, properties(n) AS entity "
         "ORDER BY coalesce(n.name, n.address, n.cve_id) LIMIT $limit"
     )
@@ -192,6 +194,10 @@ def entity_graph(
     offset: int = 0,
     relationship_type: str | None = None,
     provenance: str = "all",
+    neighbor_type: str | None = None,
+    search: str = "",
+    min_confidence: int | None = None,
+    evidence_after: str | None = None,
 ) -> dict:
     spec = entity_spec(label)
     if not 1 <= limit <= 50:
@@ -203,6 +209,22 @@ def entity_graph(
         raise ValueError("Unsupported relationship type")
     if provenance not in {"all", "real", "synthetic"}:
         raise ValueError("provenance must be all, real, or synthetic")
+    if neighbor_type:
+        entity_spec(neighbor_type)
+    if not isinstance(search, str) or len(search) > 100:
+        raise ValueError("search must be at most 100 characters")
+    if min_confidence is not None and (
+        isinstance(min_confidence, bool) or not isinstance(min_confidence, int)
+        or not 0 <= min_confidence <= 100
+    ):
+        raise ValueError("min_confidence must be between 0 and 100")
+    if evidence_after:
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", evidence_after):
+            raise ValueError("evidence_after must be YYYY-MM-DD")
+        try:
+            date.fromisoformat(evidence_after)
+        except ValueError as exc:
+            raise ValueError("evidence_after must be YYYY-MM-DD") from exc
     centers = database.read_query(
         f"MATCH (center:{spec.label} {{{spec.identifier}: $identifier}}) "
         "RETURN elementId(center) AS center_id, properties(center) AS center, "
@@ -217,11 +239,23 @@ def entity_graph(
         "AND ($provenance = 'all' OR "
         "($provenance = 'real' AND r.is_synthetic = false AND neighbor.is_synthetic = false) OR "
         "($provenance = 'synthetic' AND r.is_synthetic = true)) "
+        "AND ($neighbor_type IS NULL OR $neighbor_type IN labels(neighbor)) "
+        "AND ($search = '' OR toLower(coalesce(neighbor.name, '')) CONTAINS toLower($search) "
+        "OR toLower(coalesce(neighbor.address, '')) CONTAINS toLower($search) "
+        "OR toLower(coalesce(neighbor.cve_id, '')) CONTAINS toLower($search)) "
+        "AND ($min_confidence IS NULL OR r[$confidence_key] >= $min_confidence) "
+        "AND ($evidence_after IS NULL OR substring(coalesce(r[$first_seen_key], r.evidence_published_at, ''), 0, 10) >= $evidence_after) "
     )
     parameters = {
         "identifier": identifier,
         "relationship_type": relationship_type,
         "provenance": provenance,
+        "neighbor_type": neighbor_type,
+        "search": search.strip(),
+        "min_confidence": min_confidence,
+        "evidence_after": evidence_after,
+        "confidence_key": "confidence",
+        "first_seen_key": "first_seen",
     }
     total = database.read_query(match + "RETURN count(r) AS total", parameters)[0]["total"]
     rows = database.read_query(
@@ -254,6 +288,37 @@ def create_relationship(database: Neo4jDatabase, payload: dict[str, Any]) -> dic
         isinstance(payload[key], str) and payload[key].strip() for key in required
     ):
         raise ValueError("Relationship fields must be nonempty strings")
+    optional = {"first_seen", "last_seen", "confidence", "confidence_basis", "evidence_url", "evidence_summary"}
+    if set(payload) - required - optional:
+        raise ValueError("Unsupported relationship evidence field")
+    evidence: dict[str, Any] = {}
+    for field in ("first_seen", "last_seen"):
+        if field in payload:
+            value = payload[field]
+            if not isinstance(value, str):
+                raise ValueError(f"{field} must be an ISO 8601 timestamp")
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+                if parsed.tzinfo is None:
+                    raise ValueError("Timezone is required")
+            except ValueError as exc:
+                raise ValueError(f"{field} must be an ISO 8601 timestamp") from exc
+            evidence[field] = value
+    if "first_seen" in evidence and "last_seen" in evidence and datetime.fromisoformat(evidence["first_seen"].replace("Z", "+00:00")) > datetime.fromisoformat(evidence["last_seen"].replace("Z", "+00:00")):
+        raise ValueError("first_seen must not be later than last_seen")
+    if "confidence" in payload:
+        value = payload["confidence"]
+        if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= 100:
+            raise ValueError("confidence must be an integer from 0 to 100")
+        evidence["confidence"] = value
+    for field, length in (("confidence_basis", 200), ("evidence_summary", 1000), ("evidence_url", 1000)):
+        if field in payload:
+            value = payload[field]
+            if not isinstance(value, str) or not 1 <= len(value.strip()) <= length:
+                raise ValueError(f"{field} must be a nonempty string of at most {length} characters")
+            if field == "evidence_url" and not value.startswith("https://"):
+                raise ValueError("evidence_url must use HTTPS")
+            evidence[field] = value.strip()
     pattern = (payload["from_type"], payload["type"], payload["to_type"])
     if pattern not in ALLOWED_RELATIONSHIPS:
         raise ValueError(f"Unsupported relationship pattern: {pattern}")
@@ -268,6 +333,7 @@ def create_relationship(database: Neo4jDatabase, payload: dict[str, Any]) -> dic
         "generator_version": "manual-crud-v1",
         "generation_seed": 0,
         "created_at": _now(),
+        **evidence,
     }
     query = (
         f"MATCH (source:{from_spec.label} {{{from_spec.identifier}: $from_id}}) "

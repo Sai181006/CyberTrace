@@ -17,7 +17,7 @@
 
     <section id="login-screen" class="login-screen" aria-labelledby="login-heading">
       <form id="login-form" class="card login-card">
-        <p class="eyebrow">Local administrator</p><h2 id="login-heading">Sign in</h2>
+        <p class="eyebrow">CyberTrace workspace</p><h2 id="login-heading">Sign in</h2>
         <label>Username<input id="login-username" autocomplete="username" value="admin" required></label>
         <label>Password<input id="login-password" type="password" autocomplete="current-password" required></label>
         <button>Sign in</button><p id="login-error" class="error" role="alert"></p>
@@ -31,6 +31,8 @@
       <button id="tab-manage" class="tab" role="tab" aria-controls="manage" aria-selected="false" data-panel="manage">Manage Data</button>
       <button id="tab-investigate" class="tab" role="tab" aria-controls="investigate" aria-selected="false" data-panel="investigate">Investigation</button>
       <button id="tab-analytics" class="tab" role="tab" aria-controls="analytics" aria-selected="false" data-panel="analytics">Analytics</button>
+      <button id="tab-evaluation" class="tab" role="tab" aria-controls="evaluation" aria-selected="false" data-panel="evaluation">Evaluation</button>
+      <button id="tab-admin" class="tab" role="tab" aria-controls="admin" aria-selected="false" data-panel="admin" hidden>Admin</button>
     </nav>
 
     <main hidden>
@@ -42,7 +44,7 @@
         <div id="stats" class="stat-grid"></div>
         <div class="split">
           <article class="card"><h3>Data provenance</h3><div id="provenance"></div></article>
-          <article class="card"><h3>Graph model</h3><p class="meta">Seven entity labels and six distinct relationship types connect imported ATT&amp;CK intelligence with clearly marked synthetic demonstration data. Live totals appear above.</p></article>
+          <article class="card"><h3>Graph model</h3><p class="meta">Seven entity labels and six distinct relationship types connect sourced intelligence with clearly marked synthetic demonstration data. Optional source syncs can add current ATT&amp;CK and CISA KEV records; live totals appear above.</p></article>
         </div>
       </section>
 
@@ -66,8 +68,15 @@
         <div class="toolbar graph-controls">
           <label>Relationship <select id="graph-relationship"><option value="">All types</option></select></label>
           <label>Link provenance <select id="graph-provenance"><option value="all">All links</option><option value="real">Real links only</option><option value="synthetic">Synthetic links only</option></select></label>
+          <label>Neighbor type <select id="graph-neighbor-type"><option value="">All types</option></select></label>
+          <label>Name contains <input id="graph-search" placeholder="Optional text" maxlength="100"></label>
+          <label>Minimum confidence <input id="graph-confidence" type="number" min="0" max="100" placeholder="Any"></label>
+          <label>Evidence since <input id="graph-date" type="date"></label>
+          <label>Connections per page <select id="graph-page-size"><option value="12">12</option><option value="25">25</option><option value="50">50</option></select></label>
+          <button type="button" id="graph-apply" class="secondary">Apply filters</button>
         </div>
         <article class="graph-card">
+          <div class="graph-zoom"><button type="button" id="graph-zoom-in" class="secondary">Zoom in</button><button type="button" id="graph-zoom-out" class="secondary">Zoom out</button><button type="button" id="graph-zoom-reset" class="secondary">Reset view</button></div>
           <svg id="graph" viewBox="0 0 900 520" role="img" aria-label="Entity relationship graph"></svg>
           <div id="graph-details" class="graph-details">Choose an entity to display its immediate neighborhood.</div>
           <div class="graph-list"><h3>Graph connections (keyboard accessible)</h3><ul id="graph-connections"></ul></div>
@@ -96,6 +105,11 @@
             <label class="wide">Allowed pattern<select id="relationship-pattern"></select></label>
             <label>From ID<input id="relationship-from-id" required></label>
             <label>To ID<input id="relationship-to-id" required></label>
+            <label>First seen (optional)<input id="relationship-first-seen" type="datetime-local"></label>
+            <label>Last seen (optional)<input id="relationship-last-seen" type="datetime-local"></label>
+            <label>Confidence 0–100 (optional)<input id="relationship-confidence" type="number" min="0" max="100"></label>
+            <label>Confidence basis (optional)<input id="relationship-confidence-basis" maxlength="200"></label>
+            <label class="wide">Evidence URL (optional)<input id="relationship-evidence-url" type="url" placeholder="https://..."></label>
             <div class="actions"><button type="button" id="relationship-create">Create link</button></div>
             <label class="wide">Relationship ID for inspection or deletion<input id="relationship-id" placeholder="MANUAL-…"></label>
             <div class="actions wide"><button type="button" class="secondary" id="relationship-read">Read link</button><button type="button" class="danger" id="relationship-delete">Delete link</button></div>
@@ -113,8 +127,8 @@
         <p class="meta">Results mix documented ATT&amp;CK facts and synthetic demonstration links. Inspect every step before drawing a conclusion.</p>
         <div id="investigation-results" class="results" role="status" aria-live="polite"></div>
         <article class="card saved-investigations">
-          <h3>Investigation notes</h3>
-          <p class="meta">Save a local snapshot with every node and link's provenance. Saved snapshots stay in this browser.</p>
+          <h3>Shared investigation reports</h3>
+          <p class="meta">Save a snapshot with every node and link's provenance. Signed-in teammates can read shared reports.</p>
           <label for="investigation-choice">Path to save</label><select id="investigation-choice" disabled><option>Run an investigation first</option></select>
           <label for="investigation-note">Your note</label><textarea id="investigation-note" placeholder="What does this example show?"></textarea>
           <div class="actions"><button type="button" id="investigation-save" disabled>Save result</button><button type="button" id="investigation-export" class="secondary" disabled>Export report</button></div>
@@ -155,6 +169,37 @@
           </form>
           <div id="degree-results" class="results" role="status" aria-live="polite"></div>
         </article>
+      </section>
+
+      <section id="evaluation" class="panel" role="tabpanel" aria-labelledby="tab-evaluation">
+        <div class="section-heading"><div><p class="eyebrow">Analyst study</p><h2>Investigation tasks</h2></div></div>
+        <p class="meta">Answer the same evidence questions using either the graph or a short reference excerpt. The app records answer accuracy and time; compare the modes as a small usability study, not a causal claim.</p>
+        <article class="card analytics-block">
+          <label>Mode <select id="evaluation-mode"><option value="graph">Use CyberTrace graph</option><option value="reference">Use reference text</option></select></label>
+          <button type="button" id="evaluation-start">Start task</button>
+          <div id="evaluation-task" class="results" aria-live="polite"></div>
+          <form id="evaluation-form" hidden>
+            <label>Answer <input id="evaluation-answer" required maxlength="300"></label>
+            <button>Submit answer</button>
+          </form>
+          <div id="evaluation-feedback" class="results" aria-live="polite"></div>
+        </article>
+        <article class="card analytics-block"><h3>Study summary</h3><button type="button" id="evaluation-summary-button" class="secondary">Refresh summary</button><div id="evaluation-summary" class="results"></div></article>
+      </section>
+
+      <section id="admin" class="panel" role="tabpanel" aria-labelledby="tab-admin">
+        <div class="section-heading"><div><p class="eyebrow">Administration</p><h2>Users and source imports</h2></div></div>
+        <article class="card analytics-block">
+          <h3>Add teammate</h3>
+          <form id="admin-user-form" class="form-grid">
+            <label>Username <input id="admin-username" autocomplete="off" required maxlength="64"></label>
+            <label>Password <input id="admin-password" type="password" autocomplete="new-password" required minlength="12"></label>
+            <label>Role <select id="admin-role"><option value="analyst">Analyst</option><option value="viewer">Viewer</option><option value="admin">Admin</option></select></label>
+            <div class="actions"><button>Create user</button></div>
+          </form>
+          <div id="admin-users" class="results"></div>
+        </article>
+        <article class="card analytics-block"><h3>Source sync history</h3><p class="meta">Official feed syncing runs in a separate scheduled process. This panel shows completed and failed runs.</p><button type="button" id="admin-refresh-sources" class="secondary">Refresh runs</button><div id="admin-source-runs" class="results"></div></article>
       </section>
     </main>
 

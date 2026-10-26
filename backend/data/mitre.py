@@ -187,6 +187,14 @@ def build_subset(
             ("Malware", "Technique"),
         }:
             continue
+        evidence = {}
+        if isinstance(item.get("created"), str):
+            evidence["evidence_published_at"] = item["created"]
+        if isinstance(item.get("modified"), str):
+            evidence["evidence_updated_at"] = item["modified"]
+        if isinstance(item.get("confidence"), int) and 0 <= item["confidence"] <= 100:
+            evidence["confidence"] = item["confidence"]
+            evidence["confidence_basis"] = "STIX confidence supplied by MITRE ATT&CK"
         relationships.append(
             {
                 "id": item["id"],
@@ -201,6 +209,7 @@ def build_subset(
                     "dataset_version": dataset["release"],
                     "retrieved_at": dataset["retrieved_at"],
                     "is_synthetic": False,
+                    **evidence,
                 },
             }
         )

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from backend.app import create_app
 from backend.config import Settings
 from werkzeug.security import generate_password_hash
@@ -14,18 +16,19 @@ class FakeDatabase:
         return None
 
 
-def settings() -> Settings:
+def settings(tmp_path: Path) -> Settings:
     return Settings(
         "bolt://test:7687",
         "neo4j",
         "secret",
         admin_password_hash=generate_password_hash("test-password", method="scrypt"),
         secret_key="test-only-secret-key",
+        app_database_path=str(tmp_path / "app.sqlite3"),
     )
 
 
-def test_api_root() -> None:
-    app = create_app(settings(), database_factory=FakeDatabase)
+def test_api_root(tmp_path: Path) -> None:
+    app = create_app(settings(tmp_path), database_factory=FakeDatabase)
     client = app.test_client()
     assert client.get("/api").status_code == 401
     login = client.post(
@@ -39,8 +42,8 @@ def test_api_root() -> None:
     assert response.get_json()["name"] == "CyberTrace API"
 
 
-def test_health_checks_database() -> None:
-    app = create_app(settings(), database_factory=FakeDatabase)
+def test_health_checks_database(tmp_path: Path) -> None:
+    app = create_app(settings(tmp_path), database_factory=FakeDatabase)
 
     response = app.test_client().get("/api/health")
 
@@ -48,8 +51,8 @@ def test_health_checks_database() -> None:
     assert response.get_json() == {"database": "connected", "status": "healthy"}
 
 
-def test_frontend_is_served() -> None:
-    app = create_app(settings(), database_factory=FakeDatabase)
+def test_frontend_is_served(tmp_path: Path) -> None:
+    app = create_app(settings(tmp_path), database_factory=FakeDatabase)
 
     response = app.test_client().get("/")
 
@@ -57,8 +60,8 @@ def test_frontend_is_served() -> None:
     assert b"CyberTrace" in response.data
 
 
-def test_authentication_and_csrf_lifecycle() -> None:
-    app = create_app(settings(), database_factory=FakeDatabase)
+def test_authentication_and_csrf_lifecycle(tmp_path: Path) -> None:
+    app = create_app(settings(tmp_path), database_factory=FakeDatabase)
     client = app.test_client()
     assert client.get("/api/auth/session").get_json() == {"authenticated": False}
     assert (

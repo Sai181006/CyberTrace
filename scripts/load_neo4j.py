@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -11,6 +12,7 @@ from backend.data.loader import load_datasets
 from backend.data.validation import validate_datasets
 from backend.db import Neo4jDatabase
 from backend.schema import all_schema_statements
+from backend.store import AppStore
 
 
 def parse_args() -> argparse.Namespace:
@@ -52,6 +54,9 @@ def main() -> None:
 
     print(f"Nodes processed:         {report['nodes_processed']}")
     print(f"Relationships processed: {report['relationships_processed']}")
+    store = AppStore(Settings.from_env().app_database_path)
+    store.record_claims(real_dataset, hashlib.sha256(args.real.read_bytes()).hexdigest())
+    store.record_claims(synthetic_dataset, hashlib.sha256(args.synthetic.read_bytes()).hexdigest())
     print("CyberTrace Neo4j load complete.")
 
 

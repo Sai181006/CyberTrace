@@ -44,3 +44,16 @@ def test_graph_rejects_unsupported_filters() -> None:
         entity_graph(database, "ThreatActor", "G0007", provenance="untrusted")
     with pytest.raises(ValueError, match="offset"):
         entity_graph(database, "ThreatActor", "G0007", offset=-1)
+    with pytest.raises(ValueError, match="confidence"):
+        entity_graph(database, "ThreatActor", "G0007", min_confidence=120)
+    with pytest.raises(ValueError, match="evidence_after"):
+        entity_graph(database, "ThreatActor", "G0007", evidence_after="last week")
+
+
+def test_graph_advanced_filters_remain_parameterized() -> None:
+    database = GraphDatabase()
+    entity_graph(database, "ThreatActor", "G0007", neighbor_type="Malware", search="Mimi", min_confidence=70, evidence_after="2026-10-01")
+    query, parameters = database.calls[-1]
+    assert "$neighbor_type" in query and "$min_confidence" in query
+    assert parameters["search"] == "Mimi"
+    assert parameters["evidence_after"] == "2026-10-01"

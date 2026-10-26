@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from flask import Blueprint, current_app, jsonify, request
+from itsdangerous import URLSafeTimedSerializer
 
 from .analytics import degree_rank, pagerank, shortest_path
 from .db import Neo4jDatabase
@@ -83,9 +84,12 @@ def investigation_catalog_route():
 def investigation_route(name: str):
     value = request.args.get("value")
     limit = request.args.get("limit", default=50, type=int)
-    return jsonify(
-        results=run_investigation(_database(), name, value=value, limit=limit)
-    )
+    results = run_investigation(_database(), name, value=value, limit=limit)
+    if name == "actor-investigation":
+        serializer = URLSafeTimedSerializer(current_app.secret_key, salt="cybertrace-report")
+        for row in results:
+            row["_save_token"] = serializer.dumps(row)
+    return jsonify(results=results)
 
 
 @api.get("/entities/search")
@@ -142,10 +146,20 @@ def entity_graph_route(label: str, identifier: str):
     offset = request.args.get("offset", default=0, type=int)
     relationship_type = request.args.get("relationship_type") or None
     provenance = request.args.get("provenance", "all")
+    neighbor_type = request.args.get("neighbor_type") or None
+    search = request.args.get("search", "")
+    confidence_text = request.args.get("min_confidence")
+    try:
+        min_confidence = int(confidence_text) if confidence_text not in {None, ""} else None
+    except ValueError as exc:
+        raise ValueError("min_confidence must be an integer") from exc
+    evidence_after = request.args.get("evidence_after") or None
     return jsonify(
         entity_graph(
             _database(), label, identifier, limit=limit, offset=offset,
             relationship_type=relationship_type, provenance=provenance,
+            neighbor_type=neighbor_type, search=search,
+            min_confidence=min_confidence, evidence_after=evidence_after,
         )
     )
 

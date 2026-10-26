@@ -26,6 +26,10 @@ class Settings:
     admin_username: str = "admin"
     admin_password_hash: str = ""
     secret_key: str = ""
+    app_database_path: str = ".runtime/cybertrace-app.sqlite3"
+    require_https: bool = False
+    trusted_hosts: tuple[str, ...] = ("127.0.0.1", "localhost")
+    trusted_proxy_count: int = 0
 
     @classmethod
     def from_env(cls, *, require_neo4j_password: bool = True) -> "Settings":
@@ -40,6 +44,12 @@ class Settings:
             port = int(os.getenv("FLASK_PORT", "5000"))
         except ValueError as exc:
             raise ValueError("FLASK_PORT must be an integer") from exc
+        try:
+            proxy_count = int(os.getenv("CYBERTRACE_TRUSTED_PROXY_COUNT", "0"))
+        except ValueError as exc:
+            raise ValueError("CYBERTRACE_TRUSTED_PROXY_COUNT must be an integer") from exc
+        if not 0 <= proxy_count <= 2:
+            raise ValueError("CYBERTRACE_TRUSTED_PROXY_COUNT must be 0, 1, or 2")
 
         return cls(
             neo4j_uri=os.getenv("NEO4J_URI", "bolt://localhost:7687"),
@@ -52,4 +62,11 @@ class Settings:
             admin_username=os.getenv("CYBERTRACE_ADMIN_USERNAME", "admin"),
             admin_password_hash=os.getenv("CYBERTRACE_ADMIN_PASSWORD_HASH", ""),
             secret_key=os.getenv("CYBERTRACE_SECRET_KEY", ""),
+            app_database_path=os.getenv("CYBERTRACE_APP_DB", ".runtime/cybertrace-app.sqlite3"),
+            require_https=_as_bool(os.getenv("CYBERTRACE_REQUIRE_HTTPS")),
+            trusted_hosts=tuple(
+                host.strip() for host in os.getenv("CYBERTRACE_TRUSTED_HOSTS", "127.0.0.1,localhost").split(",")
+                if host.strip()
+            ),
+            trusted_proxy_count=proxy_count,
         )

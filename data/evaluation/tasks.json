@@ -1,0 +1,37 @@
+[
+  {
+    "id": "apt28-id",
+    "question": "What is APT28's ATT&CK external ID?",
+    "answers": ["G0007"],
+    "reference_context": "The ATT&CK record for APT28 has external ID G0007.",
+    "explanation": "APT28 is the ThreatActor with stable ATT&CK ID G0007."
+  },
+  {
+    "id": "uses-provenance",
+    "question": "Which source supports the APT28 to Mimikatz USES link?",
+    "answers": ["MITRE ATT&CK", "MITRE", "ATT&CK"],
+    "reference_context": "The APT28 to Mimikatz USES association is documented by MITRE ATT&CK.",
+    "explanation": "This USES relationship is imported from the pinned ATT&CK STIX dataset."
+  },
+  {
+    "id": "shared-technique",
+    "question": "In the pinned ATT&CK v19.2 subset, which technique ID connects both APT28 and Mimikatz through USES links?",
+    "answers": ["T1003.001", "LSASS Memory"],
+    "reference_context": "APT28 USES LSASS Memory (T1003.001). Mimikatz also USES LSASS Memory (T1003.001).",
+    "explanation": "Both sourced USES links reach technique T1003.001, LSASS Memory."
+  },
+  {
+    "id": "ip-provenance",
+    "question": "Is the link from Mimikatz to 192.0.2.11 a documented real-world observation?",
+    "answers": ["no", "synthetic", "no, synthetic"],
+    "reference_context": "The Mimikatz to 192.0.2.11 COMMUNICATES_WITH link is synthetic demonstration data.",
+    "explanation": "The IP and its COMMUNICATES_WITH link are generated demo records."
+  },
+  {
+    "id": "demo-domain",
+    "question": "Which example domain follows 192.0.2.11 in the APT28 demo path?",
+    "answers": ["c2-demo-01.example.com"],
+    "reference_context": "The stored demo path continues from 192.0.2.11 to c2-demo-01.example.com.",
+    "explanation": "The RESOLVES_TO demo link connects 192.0.2.11 to c2-demo-01.example.com."
+  }
+]

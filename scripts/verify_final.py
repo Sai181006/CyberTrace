@@ -7,6 +7,7 @@ import pytest
 from scripts.verify_analytics import main as verify_analytics
 from scripts.verify_management import main as verify_management
 from scripts.verify_review2 import main as verify_review2
+from scripts.verify_upgrade import main as verify_upgrade
 
 
 def main() -> None:
@@ -20,6 +21,8 @@ def main() -> None:
     verify_management()
     print("\n=== Review 3 analytics ===")
     verify_analytics()
+    print("\n=== Source, collaboration, roles, and evaluation upgrade ===")
+    verify_upgrade()
     print("\nCYBERTRACE FINAL VERIFICATION READY")
 
 
