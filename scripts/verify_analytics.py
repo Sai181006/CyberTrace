@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from math import isfinite
 
-from backend.analytics import pagerank, shortest_path
+from backend.analytics import degree_rank, pagerank, shortest_path
 from backend.config import Settings
 from backend.db import Neo4jDatabase
-from backend.services import EntityNotFoundError
+from backend.services import EntityNotFoundError, entity_graph
 
 
 def main() -> None:
@@ -22,6 +22,19 @@ def main() -> None:
         if not pairs:
             raise AssertionError("No actor to domain path exists")
         pair = pairs[0]
+        neighborhood = entity_graph(database, "ThreatActor", pair["actor_id"], limit=12)
+        if neighborhood["total"] < len(neighborhood["neighbors"]):
+            raise AssertionError("Graph page exceeds its total")
+        uses = entity_graph(
+            database, "ThreatActor", pair["actor_id"],
+            limit=12, relationship_type="USES", provenance="real",
+        )
+        if not uses["neighbors"] or any(
+            item["type"] != "USES" or item["properties"]["is_synthetic"]
+            for item in uses["relationships"]
+        ):
+            raise AssertionError("Real USES graph filter returned incorrect links")
+        print(f"PASS  Paged graph exploration: {neighborhood['total']} links, real USES filter")
         path = shortest_path(
             database, "ThreatActor", pair["actor_id"], "Domain", pair["domain_id"]
         )
@@ -72,6 +85,14 @@ def main() -> None:
                 f"{ranking['relationship_count']} relationships, "
                 f"{ranking['iterations']} iterations"
             )
+            degree = degree_rank(database, scope=scope)
+            if not degree["results"] or degree["node_count"] != ranking["node_count"]:
+                raise AssertionError(f"Degree {scope} scope differs from PageRank")
+            if scope == "real" and any(
+                row["entity"]["is_synthetic"] for row in degree["results"]
+            ):
+                raise AssertionError("Real-only degree ranking contains synthetic data")
+            print(f"PASS  Degree {scope}: top count {degree['results'][0]['degree']}")
     finally:
         database.close()
     print("CYBERTRACE ANALYTICS READY")

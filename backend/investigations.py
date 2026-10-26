@@ -54,9 +54,12 @@ INVESTIGATIONS = {
     "actor-investigation": Investigation(
         "Actor to malware to IP to domain multi-hop investigation",
         "value",
-        "MATCH (a:ThreatActor)-[:USES]->(m:Malware)-[:COMMUNICATES_WITH]->(i:IP)"
-        "-[:RESOLVES_TO]->(d:Domain) WHERE a.name = $value "
-        "RETURN properties(a) AS actor, properties(m) AS malware, properties(i) AS ip, "
+        "MATCH (a:ThreatActor)-[uses:USES]->(m:Malware)"
+        "-[communication:COMMUNICATES_WITH]->(i:IP)"
+        "-[resolution:RESOLVES_TO]->(d:Domain) WHERE a.name = $value "
+        "RETURN properties(a) AS actor, properties(uses) AS uses, "
+        "properties(m) AS malware, properties(communication) AS communication, "
+        "properties(i) AS ip, properties(resolution) AS resolution, "
         "properties(d) AS domain LIMIT $limit",
     ),
     "actor-techniques": Investigation(

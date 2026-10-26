@@ -22,6 +22,14 @@ def test_ten_named_investigations_exist() -> None:
     assert "most-connected" in INVESTIGATIONS
 
 
+def test_actor_investigation_exposes_every_relationship() -> None:
+    query = INVESTIGATIONS["actor-investigation"].cypher
+
+    assert "properties(uses) AS uses" in query
+    assert "properties(communication) AS communication" in query
+    assert "properties(resolution) AS resolution" in query
+
+
 def test_investigation_parameters_are_not_interpolated() -> None:
     database = RecordingDatabase()
     malicious = "x' MATCH (n) DETACH DELETE n //"

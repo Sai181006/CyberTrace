@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from flask import Blueprint, current_app, jsonify, request
 
-from .analytics import pagerank, shortest_path
+from .analytics import degree_rank, pagerank, shortest_path
 from .db import Neo4jDatabase
 from .investigations import investigation_catalog, run_investigation
 from .services import (
@@ -138,8 +138,16 @@ def delete_relationship_route(relationship_id: str):
 
 @api.get("/graph/entity/<label>/<identifier>")
 def entity_graph_route(label: str, identifier: str):
-    limit = request.args.get("limit", default=100, type=int)
-    return jsonify(entity_graph(_database(), label, identifier, limit=limit))
+    limit = request.args.get("limit", default=12, type=int)
+    offset = request.args.get("offset", default=0, type=int)
+    relationship_type = request.args.get("relationship_type") or None
+    provenance = request.args.get("provenance", "all")
+    return jsonify(
+        entity_graph(
+            _database(), label, identifier, limit=limit, offset=offset,
+            relationship_type=relationship_type, provenance=provenance,
+        )
+    )
 
 
 @api.get("/analytics/path")
@@ -157,3 +165,10 @@ def pagerank_route():
     scope = request.args.get("scope", "real")
     limit = request.args.get("limit", default=10, type=int)
     return jsonify(pagerank(_database(), scope=scope, limit=limit))
+
+
+@api.get("/analytics/degree")
+def degree_rank_route():
+    scope = request.args.get("scope", "real")
+    limit = request.args.get("limit", default=10, type=int)
+    return jsonify(degree_rank(_database(), scope=scope, limit=limit))

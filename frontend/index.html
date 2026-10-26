@@ -63,10 +63,15 @@
           <label class="sr-only" for="graph-id">Stable ID</label><input id="graph-id" placeholder="Stable ID, e.g. G0006" required>
           <button>Explore</button>
         </form>
+        <div class="toolbar graph-controls">
+          <label>Relationship <select id="graph-relationship"><option value="">All types</option></select></label>
+          <label>Link provenance <select id="graph-provenance"><option value="all">All links</option><option value="real">Real links only</option><option value="synthetic">Synthetic links only</option></select></label>
+        </div>
         <article class="graph-card">
           <svg id="graph" viewBox="0 0 900 520" role="img" aria-label="Entity relationship graph"></svg>
           <div id="graph-details" class="graph-details">Choose an entity to display its immediate neighborhood.</div>
           <div class="graph-list"><h3>Graph connections (keyboard accessible)</h3><ul id="graph-connections"></ul></div>
+          <div class="graph-pagination"><button type="button" id="graph-prev" class="secondary" disabled>Previous</button><span id="graph-page" aria-live="polite">Explore an entity to see connections.</span><button type="button" id="graph-next" class="secondary" disabled>Next</button></div>
         </article>
       </section>
 
@@ -105,11 +110,20 @@
           <label class="sr-only" for="actor-name">Threat actor name</label><input id="actor-name" placeholder="Threat actor name" required>
           <button>Investigate</button>
         </form>
+        <p class="meta">Results mix documented ATT&amp;CK facts and synthetic demonstration links. Inspect every step before drawing a conclusion.</p>
         <div id="investigation-results" class="results" role="status" aria-live="polite"></div>
+        <article class="card saved-investigations">
+          <h3>Investigation notes</h3>
+          <p class="meta">Save a local snapshot with every node and link's provenance. Saved snapshots stay in this browser.</p>
+          <label for="investigation-choice">Path to save</label><select id="investigation-choice" disabled><option>Run an investigation first</option></select>
+          <label for="investigation-note">Your note</label><textarea id="investigation-note" placeholder="What does this example show?"></textarea>
+          <div class="actions"><button type="button" id="investigation-save" disabled>Save result</button><button type="button" id="investigation-export" class="secondary" disabled>Export report</button></div>
+          <div id="saved-investigations" class="results" aria-live="polite"></div>
+        </article>
       </section>
 
       <section id="analytics" class="panel" role="tabpanel" aria-labelledby="tab-analytics">
-        <div class="section-heading"><div><p class="eyebrow">Review 3 graph analytics</p><h2>Paths and PageRank</h2></div></div>
+        <div class="section-heading"><div><p class="eyebrow">Graph analytics</p><h2>Paths and rankings</h2></div></div>
         <article class="card analytics-block">
           <h3>Shortest path</h3>
           <p class="meta">Find up to six relationships between two entities. Each node and relationship retains its own provenance.</p>
@@ -131,6 +145,15 @@
             <button>Calculate PageRank</button>
           </form>
           <div id="pagerank-results" class="results" role="status" aria-live="polite"></div>
+        </article>
+        <article class="card analytics-block">
+          <h3>Most connected entities</h3>
+          <p class="meta">Degree counts relationships touching an entity in the selected graph. It measures connections, not danger or severity. Compare this ordering with PageRank above.</p>
+          <form id="degree-form" class="toolbar">
+            <label>Data scope<select id="degree-scope"><option value="real">Real ATT&amp;CK records only</option><option value="all">Real and synthetic records</option></select></label>
+            <button>Calculate degree</button>
+          </form>
+          <div id="degree-results" class="results" role="status" aria-live="polite"></div>
         </article>
       </section>
     </main>

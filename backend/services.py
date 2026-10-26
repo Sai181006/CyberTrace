@@ -184,32 +184,65 @@ def dashboard(database: Neo4jDatabase) -> dict:
 
 
 def entity_graph(
-    database: Neo4jDatabase, label: str, identifier: str, *, limit: int = 100
+    database: Neo4jDatabase,
+    label: str,
+    identifier: str,
+    *,
+    limit: int = 12,
+    offset: int = 0,
+    relationship_type: str | None = None,
+    provenance: str = "all",
 ) -> dict:
     spec = entity_spec(label)
-    if not 1 <= limit <= 200:
-        raise ValueError("limit must be between 1 and 200")
-    rows = database.read_query(
+    if not 1 <= limit <= 50:
+        raise ValueError("limit must be between 1 and 50")
+    if not 0 <= offset <= 10000:
+        raise ValueError("offset must be between 0 and 10000")
+    allowed_types = {pattern[1] for pattern in ALLOWED_RELATIONSHIPS}
+    if relationship_type and relationship_type not in allowed_types:
+        raise ValueError("Unsupported relationship type")
+    if provenance not in {"all", "real", "synthetic"}:
+        raise ValueError("provenance must be all, real, or synthetic")
+    centers = database.read_query(
         f"MATCH (center:{spec.label} {{{spec.identifier}: $identifier}}) "
-        "OPTIONAL MATCH (center)-[r]-(neighbor) "
-        "WITH center, r, neighbor LIMIT $limit "
         "RETURN elementId(center) AS center_id, properties(center) AS center, "
-        "labels(center)[0] AS center_type, "
-        "collect(CASE WHEN neighbor IS NULL THEN null ELSE {"
-        "id: elementId(neighbor), type: labels(neighbor)[0], properties: properties(neighbor)} "
-        "END) AS neighbors, "
-        "collect(CASE WHEN r IS NULL THEN null ELSE {"
-        "id: coalesce(r.relationship_id, elementId(r)), type: type(r), "
-        "start: elementId(startNode(r)), end: elementId(endNode(r)), "
-        "properties: properties(r)} END) AS relationships",
-        {"identifier": identifier, "limit": limit},
+        "labels(center)[0] AS center_type",
+        {"identifier": identifier},
     )
-    if not rows:
+    if not centers:
         raise EntityNotFoundError(f"{label} {identifier} was not found")
-    row = rows[0]
-    row["neighbors"] = [item for item in row["neighbors"] if item is not None]
-    row["relationships"] = [item for item in row["relationships"] if item is not None]
-    return row
+    match = (
+        f"MATCH (center:{spec.label} {{{spec.identifier}: $identifier}})-[r]-(neighbor) "
+        "WHERE ($relationship_type IS NULL OR type(r) = $relationship_type) "
+        "AND ($provenance = 'all' OR "
+        "($provenance = 'real' AND r.is_synthetic = false AND neighbor.is_synthetic = false) OR "
+        "($provenance = 'synthetic' AND r.is_synthetic = true)) "
+    )
+    parameters = {
+        "identifier": identifier,
+        "relationship_type": relationship_type,
+        "provenance": provenance,
+    }
+    total = database.read_query(match + "RETURN count(r) AS total", parameters)[0]["total"]
+    rows = database.read_query(
+        match
+        + "RETURN {id: elementId(neighbor), type: labels(neighbor)[0], "
+        "properties: properties(neighbor)} AS neighbor, "
+        "{id: coalesce(r.relationship_id, elementId(r)), type: type(r), "
+        "start: elementId(startNode(r)), end: elementId(endNode(r)), "
+        "properties: properties(r)} AS relationship "
+        "ORDER BY type(r), coalesce(neighbor.name, neighbor.address, neighbor.cve_id, ''), "
+        "elementId(r) SKIP $offset LIMIT $limit",
+        {**parameters, "offset": offset, "limit": limit},
+    )
+    return {
+        **centers[0],
+        "neighbors": [row["neighbor"] for row in rows],
+        "relationships": [row["relationship"] for row in rows],
+        "total": total,
+        "offset": offset,
+        "limit": limit,
+    }
 
 
 def create_relationship(database: Neo4jDatabase, payload: dict[str, Any]) -> dict:

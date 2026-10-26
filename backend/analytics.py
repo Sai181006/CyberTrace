@@ -98,9 +98,7 @@ def calculate_pagerank(
     return ranks, max_iterations, False
 
 
-def pagerank(
-    database: Neo4jDatabase, *, scope: str = "real", limit: int = 10
-) -> dict[str, Any]:
+def _graph_snapshot(database: Neo4jDatabase, scope: str, limit: int) -> tuple[list[dict], list[dict]]:
     if scope not in {"real", "all"}:
         raise ValueError("scope must be real or all")
     if not isinstance(limit, int) or not 1 <= limit <= 50:
@@ -120,20 +118,28 @@ def pagerank(
         f"MATCH (a)-[r]->(b) {where_edges}"
         "RETURN elementId(a) AS start, elementId(b) AS end"
     )
+    return nodes, edges
+
+
+def _rank_key(row: dict, score: float) -> tuple:
+    entity_type = row["type"]
+    return (
+        -score,
+        entity_type,
+        str(row["properties"].get(ENTITY_SPECS[entity_type].identifier, ""))
+        if entity_type in ENTITY_SPECS else row["id"],
+    )
+
+
+def pagerank(
+    database: Neo4jDatabase, *, scope: str = "real", limit: int = 10
+) -> dict[str, Any]:
+    nodes, edges = _graph_snapshot(database, scope, limit)
     scores, iterations, converged = calculate_pagerank(
         [row["id"] for row in nodes],
         [(row["start"], row["end"]) for row in edges],
     )
-    ranked = sorted(
-        nodes,
-        key=lambda row: (
-            -scores[row["id"]],
-            row["type"],
-            str(row["properties"].get(ENTITY_SPECS[row["type"]].identifier, ""))
-            if row["type"] in ENTITY_SPECS
-            else row["id"],
-        ),
-    )
+    ranked = sorted(nodes, key=lambda row: _rank_key(row, scores[row["id"]]))
     results = [
         {"type": row["type"], "entity": row["properties"], "score": scores[row["id"]]}
         for row in ranked[:limit]
@@ -147,4 +153,26 @@ def pagerank(
         "iterations": iterations,
         "converged": converged,
         "results": results,
+    }
+
+
+def degree_rank(
+    database: Neo4jDatabase, *, scope: str = "real", limit: int = 10
+) -> dict[str, Any]:
+    """Rank nodes by incident relationship count in the selected graph snapshot."""
+    nodes, edges = _graph_snapshot(database, scope, limit)
+    degrees = {row["id"]: 0 for row in nodes}
+    for edge in edges:
+        if edge["start"] in degrees and edge["end"] in degrees:
+            degrees[edge["start"]] += 1
+            degrees[edge["end"]] += 1
+    ranked = sorted(nodes, key=lambda row: _rank_key(row, degrees[row["id"]]))
+    return {
+        "scope": scope,
+        "node_count": len(nodes),
+        "relationship_count": len(edges),
+        "results": [
+            {"type": row["type"], "entity": row["properties"], "degree": degrees[row["id"]]}
+            for row in ranked[:limit]
+        ],
     }

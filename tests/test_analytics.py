@@ -4,7 +4,7 @@ from math import isclose, isfinite
 
 import pytest
 
-from backend.analytics import calculate_pagerank, pagerank, shortest_path
+from backend.analytics import calculate_pagerank, degree_rank, pagerank, shortest_path
 from backend.services import EntityNotFoundError
 
 
@@ -104,3 +104,14 @@ def test_pagerank_ties_use_stable_entity_ids() -> None:
         "T1000",
         "T2000",
     ]
+
+
+def test_degree_rank_counts_both_endpoints_and_respects_scope() -> None:
+    database = AnalyticsDatabase()
+    result = degree_rank(database, scope="real")
+    assert result["node_count"] == 2
+    assert result["relationship_count"] == 1
+    assert [row["degree"] for row in result["results"]] == [1, 1]
+    assert "is_synthetic = false" in database.calls[-1][0]
+    with pytest.raises(ValueError, match="limit"):
+        degree_rank(database, limit=0)

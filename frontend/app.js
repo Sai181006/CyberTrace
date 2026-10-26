@@ -17,6 +17,10 @@ async function api(path, options = {}) {
 function toast(message, error = false) { const box = $("#toast"); box.textContent = message; box.classList.toggle("error", error); box.classList.add("show"); setTimeout(() => box.classList.remove("show"), 2600); }
 function escapeHtml(value) { return String(value ?? "").replace(/[&<>"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[char]); }
 function title(properties) { return properties.name || properties.address || properties.cve_id || properties.source_id || "Entity"; }
+function sourceLink(properties) {
+  const url = String(properties.source_url || "");
+  return /^https:\/\/attack\.mitre\.org\//.test(url) ? ` · <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">MITRE source</a>` : "";
+}
 
 function showLogin() {
   csrfToken = "";
@@ -90,21 +94,77 @@ $("#search-form").addEventListener("submit", async event => {
       const stableId = idKey ? row.entity[idKey] : row.entity.source_id;
       const description = String(row.entity.description || "No description");
       const excerpt = description.length > 320 ? `${description.slice(0,320)}…` : description;
-      return `<article class="result"><header><strong>${escapeHtml(title(row.entity))}</strong><span class="badge">${escapeHtml(row.type)}</span></header><p class="meta">ID: ${escapeHtml(stableId)} · Source: ${escapeHtml(row.entity.source)} · Synthetic: ${row.entity.is_synthetic ? "Yes" : "No"}</p><p class="meta">${escapeHtml(excerpt)}</p><details><summary>Full details and provenance</summary><pre class="output">${escapeHtml(JSON.stringify(row.entity,null,2))}</pre></details></article>`;
+      return `<article class="result"><header><strong>${escapeHtml(title(row.entity))}</strong><span class="badge">${escapeHtml(row.type)}</span></header><p class="meta">ID: ${escapeHtml(stableId)} · Source: ${escapeHtml(row.entity.source)} · Synthetic: ${row.entity.is_synthetic ? "Yes" : "No"}${sourceLink(row.entity)}</p><p class="meta">${escapeHtml(excerpt)}</p><details><summary>Full details and provenance</summary><pre class="output">${escapeHtml(JSON.stringify(row.entity,null,2))}</pre></details></article>`;
     }).join("") : '<p class="meta">No matching entities.</p>';
   } catch(error) { output.textContent = error.message; toast(error.message, true); }
 });
 
 function svgElement(name, attributes = {}) { const element = document.createElementNS("http://www.w3.org/2000/svg", name); Object.entries(attributes).forEach(([key,value]) => element.setAttribute(key,value)); return element; }
-function renderGraph(data) { const svg = $("#graph"); svg.innerHTML = ""; const cx=450, cy=260, radius=185; const neighbors=data.neighbors.slice(0,12); const list=$("#graph-connections"); list.innerHTML=""; neighbors.forEach((neighbor,index) => { const angle=(Math.PI*2*index)/Math.max(neighbors.length,1)-Math.PI/2; const x=cx+Math.cos(angle)*radius, y=cy+Math.sin(angle)*radius; svg.append(svgElement("line",{x1:cx,y1:cy,x2:x,y2:y,class:"edge"})); const relation=data.relationships.find(item=>[item.start,item.end].includes(data.center_id)&&[item.start,item.end].includes(neighbor.id)); if(relation){ const edgeLabel=svgElement("text",{x:(cx+x)/2,y:(cy+y)/2,class:"edge-label"}); edgeLabel.textContent=relation.type; svg.append(edgeLabel); } const circle=svgElement("circle",{cx:x,cy:y,r:29,class:"node neighbor"}); circle.addEventListener("click",()=>$("#graph-details").textContent=JSON.stringify(neighbor.properties,null,2)); svg.append(circle); const label=svgElement("text",{x,y:y+43,class:"node-label"}); label.textContent=title(neighbor.properties).slice(0,18); svg.append(label); const li=document.createElement("li"); const detail=document.createElement("button"); detail.type="button"; detail.className="secondary"; detail.textContent=`${neighbor.type}: ${title(neighbor.properties)} — ${relation?.type || "RELATED"} — ${neighbor.properties.is_synthetic ? "Synthetic" : "Real"}`; detail.addEventListener("click",()=>$("#graph-details").textContent=JSON.stringify(neighbor.properties,null,2)); li.append(detail); list.append(li); }); const center=svgElement("circle",{cx,cy,r:46,class:"node center"}); center.addEventListener("click",()=>$("#graph-details").textContent=JSON.stringify(data.center,null,2)); svg.append(center); const label=svgElement("text",{x:cx,y:cy+65,class:"node-label"}); label.textContent=title(data.center).slice(0,28); svg.append(label); $("#graph-details").textContent=`${data.center_type}: ${title(data.center)} · showing ${neighbors.length} of ${data.neighbors.length} neighbors · ${data.relationships.length} relationships`; if(data.neighbors.length>neighbors.length){ const li=document.createElement("li");li.textContent=`${data.neighbors.length-neighbors.length} more neighbors not shown; use search or a narrower query.`;list.append(li); }
+let graphOffset = 0;
+function graphPageSize() { return window.matchMedia("(max-width:720px)").matches ? 6 : 12; }
+function exploreNeighbor(neighbor) {
+  const idKey = entityMetadata[neighbor.type]?.identifier;
+  if (!idKey || !neighbor.properties[idKey]) { toast("Stable ID unavailable for this entity.", true); return; }
+  $("#graph-type").value = neighbor.type;
+  $("#graph-id").value = neighbor.properties[idKey];
+  graphOffset = 0;
+  loadGraph();
 }
-$("#graph-form").addEventListener("submit", async event => { event.preventDefault(); try { renderGraph(await api(`/api/graph/entity/${encodeURIComponent($("#graph-type").value)}/${encodeURIComponent($("#graph-id").value)}`)); } catch(error) { toast(error.message, true); } });
+function renderGraph(data) {
+  const svg = $("#graph"); svg.replaceChildren();
+  const list = $("#graph-connections"); list.replaceChildren();
+  const narrow = window.matchMedia("(max-width:720px)").matches;
+  svg.setAttribute("viewBox", narrow ? "0 0 400 500" : "0 0 900 520");
+  const cx = narrow ? 200 : 450, cy = 250, radius = narrow ? 135 : 185;
+  data.neighbors.forEach((neighbor, index) => {
+    const relation = data.relationships[index];
+    const angle = Math.PI * 2 * index / Math.max(data.neighbors.length, 1) - Math.PI / 2;
+    const x = cx + Math.cos(angle) * radius, y = cy + Math.sin(angle) * radius;
+    svg.append(svgElement("line", {x1:cx,y1:cy,x2:x,y2:y,class:"edge"}));
+    const edgeLabel = svgElement("text", {x:(cx+x)/2,y:(cy+y)/2,class:"edge-label"});
+    edgeLabel.textContent = relation.type; svg.append(edgeLabel);
+    const circle = svgElement("circle", {cx:x,cy:y,r:narrow ? 25 : 29,class:"node neighbor"});
+    circle.addEventListener("click", () => exploreNeighbor(neighbor)); svg.append(circle);
+    const label = svgElement("text", {x,y:y+43,class:"node-label"});
+    label.textContent = title(neighbor.properties).slice(0,narrow ? 13 : 18); svg.append(label);
+    const li = document.createElement("li");
+    const details = document.createElement("button"); details.type = "button"; details.className = "secondary";
+    details.textContent = `${neighbor.type}: ${title(neighbor.properties)} (${neighbor.properties.is_synthetic ? "Synthetic" : "Real"}) — ${relation.type} link (${relation.properties.is_synthetic ? "Synthetic" : "Real"})`;
+    details.addEventListener("click", () => $("#graph-details").textContent = JSON.stringify({entity:neighbor.properties,relationship:relation.properties},null,2));
+    const expand = document.createElement("button"); expand.type = "button"; expand.className = "secondary";
+    expand.textContent = "Explore from here"; expand.addEventListener("click", () => exploreNeighbor(neighbor));
+    li.append(details, expand); list.append(li);
+  });
+  const center = svgElement("circle", {cx,cy,r:narrow ? 38 : 46,class:"node center"});
+  center.addEventListener("click", () => $("#graph-details").textContent = JSON.stringify(data.center,null,2)); svg.append(center);
+  const centerLabel = svgElement("text", {x:cx,y:cy+65,class:"node-label"});
+  centerLabel.textContent = title(data.center).slice(0,narrow ? 18 : 28); svg.append(centerLabel);
+  $("#graph-details").textContent = `${data.center_type}: ${title(data.center)} · ${data.total} matching connections. Select a connection for provenance or explore from it.`;
+  $("#graph-page").textContent = data.total ? `Showing ${data.offset + 1}–${data.offset + data.neighbors.length} of ${data.total}` : "No connections match these filters.";
+  $("#graph-prev").disabled = data.offset === 0;
+  $("#graph-next").disabled = data.offset + data.neighbors.length >= data.total;
+}
+async function loadGraph() {
+  const type = $("#graph-type").value, id = $("#graph-id").value.trim();
+  if (!id) return;
+  const query = new URLSearchParams({limit:String(graphPageSize()),offset:String(graphOffset),provenance:$("#graph-provenance").value});
+  if ($("#graph-relationship").value) query.set("relationship_type", $("#graph-relationship").value);
+  try { renderGraph(await api(`/api/graph/entity/${encodeURIComponent(type)}/${encodeURIComponent(id)}?${query}`)); }
+  catch (error) { $("#graph-details").textContent = error.message; toast(error.message, true); }
+}
+$("#graph-form").addEventListener("submit", event => { event.preventDefault(); graphOffset = 0; loadGraph(); });
+$("#graph-relationship").addEventListener("change", () => { graphOffset = 0; loadGraph(); });
+$("#graph-provenance").addEventListener("change", () => { graphOffset = 0; loadGraph(); });
+$("#graph-prev").addEventListener("click", () => { graphOffset = Math.max(0, graphOffset - graphPageSize()); loadGraph(); });
+$("#graph-next").addEventListener("click", () => { graphOffset += graphPageSize(); loadGraph(); });
 
 async function loadMetadata() {
   try {
     const data = await api("/api/entity-types");
     entityMetadata = data.metadata;
     relationshipPatterns = data.relationship_patterns;
+    const relationTypes = [...new Set(relationshipPatterns.map(pattern => pattern.type))].sort();
+    $("#graph-relationship").innerHTML = '<option value="">All types</option>' + relationTypes.map(type => `<option>${escapeHtml(type)}</option>`).join("");
     $("#entity-type").innerHTML = data.types.map(type => `<option>${escapeHtml(type)}</option>`).join("");
     $("#entity-type").value = "Malware";
     updateEntityHelp();
@@ -193,7 +253,80 @@ $("#relationship-delete").addEventListener("click", async () => {
   } catch (error) { output.textContent = error.message; toast(error.message, true); }
 });
 
-$("#investigation-form").addEventListener("submit", async event => { event.preventDefault(); const query=new URLSearchParams({value:$("#actor-name").value,limit:"30"}); try { const {results}=await api(`/api/investigations/actor-investigation?${query}`); $("#investigation-results").innerHTML=results.length ? results.map(row=>`<article class="result"><header><strong>${escapeHtml(title(row.actor))}</strong><span class="badge">3 relationship path</span></header><p>${escapeHtml(title(row.malware))} → ${escapeHtml(row.ip.address)} → ${escapeHtml(row.domain.name)}</p><p class="meta">Actor source: ${escapeHtml(row.actor.source)} · Infrastructure synthetic: ${row.ip.is_synthetic ? "Yes" : "No"}</p></article>`).join("") : '<p class="meta">No complete investigation path for that actor.</p>'; } catch(error) { toast(error.message,true); } });
+const savedKey = "cybertrace-investigations-v1";
+let currentPaths = [];
+let savedInvestigations = [];
+try { savedInvestigations = JSON.parse(localStorage.getItem(savedKey) || "[]"); if (!Array.isArray(savedInvestigations)) savedInvestigations = []; }
+catch { savedInvestigations = []; }
+function persistInvestigations() {
+  try { localStorage.setItem(savedKey, JSON.stringify(savedInvestigations)); return true; }
+  catch { toast("Browser storage is unavailable; export the report instead.", true); return false; }
+}
+function exportInvestigation(report) {
+  const steps = [
+    ["Actor",report.path.actor],["USES relationship",report.path.uses],["Malware",report.path.malware],
+    ["COMMUNICATES_WITH relationship",report.path.communication],["IP",report.path.ip],
+    ["RESOLVES_TO relationship",report.path.resolution],["Domain",report.path.domain]
+  ];
+  const rows = steps.map(([label,properties]) => `<section><h2>${escapeHtml(label)}: ${escapeHtml(title(properties))}</h2><p><strong>Source:</strong> ${escapeHtml(properties.source || "Unknown")} · <strong>Synthetic:</strong> ${properties.is_synthetic ? "Yes" : "No"}${sourceLink(properties)}</p><pre>${escapeHtml(JSON.stringify(properties,null,2))}</pre></section>`).join("");
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>CyberTrace investigation report</title><style>body{font:16px/1.5 system-ui;max-width:850px;margin:2rem auto;padding:0 1rem;color:#15212a}section{border-top:1px solid #aaa;padding:1rem 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f6;padding:1rem}small{color:#52636d}</style></head><body><h1>CyberTrace investigation</h1><p><strong>Actor:</strong> ${escapeHtml(report.actor)} · <strong>Saved:</strong> ${escapeHtml(report.saved_at)}</p><p><strong>Note:</strong> ${escapeHtml(report.note || "None")}</p><p><strong>Interpretation:</strong> This is a graph snapshot. Each step has its own provenance. Synthetic relationships are demonstration scenarios, not confirmed incidents.</p>${rows}<small>Exported from CyberTrace. Verify current source data before using this report.</small></body></html>`;
+  const url = URL.createObjectURL(new Blob([html], {type:"text/html"}));
+  const link = document.createElement("a"); link.href = url; link.download = `cybertrace-investigation-${report.id}.html`;
+  document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function renderSavedInvestigations() {
+  const box = $("#saved-investigations"); box.replaceChildren();
+  if (!savedInvestigations.length) { box.textContent = "No saved investigations yet."; return; }
+  savedInvestigations.forEach(report => {
+    const article = document.createElement("article"); article.className = "result";
+    const heading = document.createElement("strong"); heading.textContent = `${report.actor} · ${new Date(report.saved_at).toLocaleString()}`;
+    const note = document.createElement("p"); note.className = "meta"; note.textContent = report.note || "No note";
+    const actions = document.createElement("div"); actions.className = "actions";
+    const exportButton = document.createElement("button"); exportButton.type = "button"; exportButton.className = "secondary"; exportButton.textContent = "Export HTML report";
+    exportButton.addEventListener("click", () => exportInvestigation(report));
+    const removeButton = document.createElement("button"); removeButton.type = "button"; removeButton.className = "danger"; removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => { savedInvestigations = savedInvestigations.filter(item => item.id !== report.id); persistInvestigations(); renderSavedInvestigations(); });
+    actions.append(exportButton, removeButton); article.append(heading,note,actions); box.append(article);
+  });
+}
+function selectedPath() { return currentPaths[Number($("#investigation-choice").value)]; }
+$("#investigation-save").addEventListener("click", () => {
+  const path = selectedPath(); if (!path) return;
+  const report = {id:String(Date.now()),saved_at:new Date().toISOString(),actor:title(path.actor),note:$("#investigation-note").value.trim().slice(0,2000),path};
+  savedInvestigations.unshift(report); savedInvestigations = savedInvestigations.slice(0,20);
+  if (persistInvestigations()) { renderSavedInvestigations(); toast("Investigation saved in this browser"); }
+});
+$("#investigation-export").addEventListener("click", () => {
+  const path = selectedPath(); if (!path) return;
+  exportInvestigation({id:String(Date.now()),saved_at:new Date().toISOString(),actor:title(path.actor),note:$("#investigation-note").value.trim().slice(0,2000),path});
+});
+renderSavedInvestigations();
+$("#investigation-form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const query = new URLSearchParams({value:$("#actor-name").value,limit:"30"});
+  try {
+    const {results} = await api(`/api/investigations/actor-investigation?${query}`);
+    currentPaths = results;
+    $("#investigation-choice").disabled = !results.length;
+    $("#investigation-save").disabled = !results.length;
+    $("#investigation-export").disabled = !results.length;
+    $("#investigation-choice").innerHTML = results.length ? results.map((row,index) => `<option value="${index}">${index + 1}. ${escapeHtml(title(row.malware))} → ${escapeHtml(title(row.domain))}</option>`).join("") : "<option>No complete path found</option>";
+    $("#investigation-results").innerHTML = results.length ? results.map(row => {
+      const steps = [
+        ["Actor", row.actor], ["USES link", row.uses],
+        ["Malware", row.malware], ["COMMUNICATES_WITH link", row.communication],
+        ["IP", row.ip], ["RESOLVES_TO link", row.resolution],
+        ["Domain", row.domain]
+      ];
+      const details = steps.map(([label, properties]) => {
+        const name = label.endsWith("link") ? label : `${label}: ${title(properties)}`;
+        const source = properties.is_synthetic ? "Synthetic" : (properties.source || "Real source");
+        return `<li>${escapeHtml(name)} · ${escapeHtml(source)}${sourceLink(properties)}<details><summary>Full provenance</summary><pre class="output">${escapeHtml(JSON.stringify(properties, null, 2))}</pre></details></li>`;
+      }).join("");
+      return `<article class="result"><header><strong>${escapeHtml(title(row.actor))}</strong><span class="badge">3 relationship path</span></header><ol>${details}</ol></article>`;
+    }).join("") : '<p class="meta">No complete investigation path for that actor.</p>';
+  } catch (error) { currentPaths = []; $("#investigation-save").disabled = true; $("#investigation-export").disabled = true; toast(error.message, true); }
+});
 
 $("#path-form").addEventListener("submit", async event => {
   event.preventDefault();
@@ -219,6 +352,17 @@ $("#pagerank-form").addEventListener("submit", async event => {
     const data = await api(`/api/analytics/pagerank?${query}`);
     output.innerHTML = `<p class="meta">${data.node_count} nodes · ${data.relationship_count} directed relationships · ${data.iterations} iterations${data.converged ? "" : " (iteration limit reached)"}</p>` +
       (data.results.length ? data.results.map((row, index) => `<article class="result"><header><strong>${index + 1}. ${escapeHtml(title(row.entity))}</strong><span class="badge">${escapeHtml(row.type)}</span></header><p class="meta">PageRank ${row.score.toFixed(6)} · ${row.entity.is_synthetic ? "Synthetic" : escapeHtml(row.entity.source || "Real source")}</p></article>`).join("") : '<p class="meta">No entities in this scope.</p>');
+  } catch (error) { output.textContent = error.message; toast(error.message, true); }
+});
+
+$("#degree-form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const output = $("#degree-results"); output.textContent = "Counting connections…";
+  try {
+    const query = new URLSearchParams({scope:$("#degree-scope").value,limit:"10"});
+    const data = await api(`/api/analytics/degree?${query}`);
+    output.innerHTML = `<p class="meta">${data.node_count} nodes · ${data.relationship_count} relationships in scope. Degree is an undirected connection count.</p>` +
+      (data.results.length ? data.results.map((row,index) => `<article class="result"><header><strong>${index + 1}. ${escapeHtml(title(row.entity))}</strong><span class="badge">${escapeHtml(row.type)}</span></header><p class="meta">${row.degree} connections · ${row.entity.is_synthetic ? "Synthetic" : escapeHtml(row.entity.source || "Real source")}</p></article>`).join("") : '<p class="meta">No entities in this scope.</p>');
   } catch (error) { output.textContent = error.message; toast(error.message, true); }
 });
 
