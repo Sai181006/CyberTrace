@@ -74,6 +74,8 @@ function activateTab(button) {
   document.querySelectorAll(".tab,.panel").forEach(item => item.classList.remove("active"));
   document.querySelectorAll(".tab").forEach(tab => tab.setAttribute("aria-selected", tab === button ? "true" : "false"));
   button.classList.add("active"); document.getElementById(button.dataset.panel).classList.add("active");
+  const demoInput = {search:"#search-term",explorer:"#graph-id",investigate:"#actor-name",analytics:"#path-from-id"}[button.dataset.panel];
+  if (demoInput) $(demoInput).focus();
 }
 document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => activateTab(button)));
 $(".tabs").addEventListener("keydown", event => {
@@ -92,6 +94,9 @@ entityTypes.forEach(type => {
   $("#path-from-type").insertAdjacentHTML("beforeend", `<option>${type}</option>`);
   $("#path-to-type").insertAdjacentHTML("beforeend", `<option>${type}</option>`);
 });
+$("#search-type").value = "ThreatActor";
+$("#graph-type").value = "ThreatActor";
+$("#path-from-type").value = "ThreatActor";
 $("#path-to-type").value = "Domain";
 
 async function loadHealth() { try { await api("/api/health"); $("#connection").classList.add("online"); $("#connection").lastChild.textContent = " Neo4j connected"; } catch { $("#connection").lastChild.textContent = " Neo4j unavailable"; } }
@@ -128,6 +133,13 @@ $("#search-results").addEventListener("click", async event => {
 function svgElement(name, attributes = {}) { const element = document.createElementNS("http://www.w3.org/2000/svg", name); Object.entries(attributes).forEach(([key,value]) => element.setAttribute(key,value)); return element; }
 let graphOffset = 0;
 let graphZoom = 1;
+let graphView = "2d";
+const graph3d = window.createCyberTraceGraph3D(
+  $("#graph-3d"),
+  neighbor => exploreNeighbor(neighbor),
+  data => { $("#graph-details").textContent = JSON.stringify(data.center, null, 2); },
+);
+if (!graph3d) $("#graph-view-3d").disabled = true;
 function graphPageSize() { return Number($("#graph-page-size").value); }
 function applyGraphZoom() {
   const narrow = window.matchMedia("(max-width:720px)").matches;
@@ -182,6 +194,7 @@ function renderGraph(data) {
   $("#graph-page").textContent = data.total ? `Showing ${data.offset + 1}–${data.offset + data.neighbors.length} of ${data.total}` : "No connections match these filters.";
   $("#graph-prev").disabled = data.offset === 0;
   $("#graph-next").disabled = data.offset + data.neighbors.length >= data.total;
+  graph3d?.render(data);
 }
 async function loadGraph() {
   const type = $("#graph-type").value, id = $("#graph-id").value.trim();
@@ -196,15 +209,44 @@ async function loadGraph() {
   catch (error) { $("#graph-details").textContent = error.message; toast(error.message, true); }
 }
 $("#graph-form").addEventListener("submit", event => { event.preventDefault(); graphOffset = 0; loadGraph(); });
+$(".graph-controls").addEventListener("keydown", event => {
+  if (event.key !== "Enter") return;
+  event.preventDefault(); graphOffset = 0; loadGraph();
+});
 $("#graph-relationship").addEventListener("change", () => { graphOffset = 0; loadGraph(); });
 $("#graph-provenance").addEventListener("change", () => { graphOffset = 0; loadGraph(); });
 $("#graph-apply").addEventListener("click", () => { graphOffset = 0; loadGraph(); });
 $("#graph-page-size").addEventListener("change", () => { graphOffset = 0; loadGraph(); });
 $("#graph-prev").addEventListener("click", () => { graphOffset = Math.max(0, graphOffset - graphPageSize()); loadGraph(); });
 $("#graph-next").addEventListener("click", () => { graphOffset += graphPageSize(); loadGraph(); });
-$("#graph-zoom-in").addEventListener("click", () => { graphZoom = Math.min(3, graphZoom * 1.25); applyGraphZoom(); });
-$("#graph-zoom-out").addEventListener("click", () => { graphZoom = Math.max(.65, graphZoom / 1.25); applyGraphZoom(); });
-$("#graph-zoom-reset").addEventListener("click", () => { graphZoom = 1; applyGraphZoom(); });
+function setGraphView(view) {
+  if (view === "3d" && !graph3d) return;
+  graphView = view;
+  $("#graph").toggleAttribute("hidden", view === "3d");
+  $("#graph-3d").hidden = view !== "3d";
+  $("#graph-3d-hint").hidden = view !== "3d";
+  for (const option of ["2d", "3d"]) {
+    const button = $(`#graph-view-${option}`);
+    button.classList.toggle("active", option === view);
+    button.setAttribute("aria-pressed", String(option === view));
+  }
+  if (view === "3d") graph3d.show();
+  else applyGraphZoom();
+}
+$("#graph-view-2d").addEventListener("click", () => setGraphView("2d"));
+$("#graph-view-3d").addEventListener("click", () => setGraphView("3d"));
+$("#graph-zoom-in").addEventListener("click", () => {
+  if (graphView === "3d") graph3d.zoomIn();
+  else { graphZoom = Math.min(3, graphZoom * 1.25); applyGraphZoom(); }
+});
+$("#graph-zoom-out").addEventListener("click", () => {
+  if (graphView === "3d") graph3d.zoomOut();
+  else { graphZoom = Math.max(.65, graphZoom / 1.25); applyGraphZoom(); }
+});
+$("#graph-zoom-reset").addEventListener("click", () => {
+  if (graphView === "3d") graph3d.reset();
+  else { graphZoom = 1; applyGraphZoom(); }
+});
 
 async function loadMetadata() {
   try {
@@ -218,6 +260,8 @@ async function loadMetadata() {
     $("#entity-type").value = "Malware";
     updateEntityHelp();
     $("#relationship-pattern").innerHTML = relationshipPatterns.map((pattern, index) => `<option value="${index}">${escapeHtml(pattern.from_type)} → ${escapeHtml(pattern.type)} → ${escapeHtml(pattern.to_type)}</option>`).join("");
+    const demoPattern = relationshipPatterns.findIndex(pattern => pattern.from_type === "IP" && pattern.type === "RESOLVES_TO" && pattern.to_type === "Domain");
+    if (demoPattern >= 0) $("#relationship-pattern").value = String(demoPattern);
     $("#relationship-output").textContent = `${relationshipPatterns.length} allowed relationship patterns available.`;
   } catch (error) { toast(error.message, true); }
 }
@@ -389,6 +433,8 @@ $("#investigation-form").addEventListener("submit", async event => {
     $("#investigation-save").disabled = !results.length;
     $("#investigation-export").disabled = !results.length;
     $("#investigation-choice").innerHTML = results.length ? results.map((row,index) => `<option value="${index}">${index + 1}. ${escapeHtml(title(row.malware))} → ${escapeHtml(title(row.domain))}</option>`).join("") : "<option>No complete path found</option>";
+    const demoPath = results.findIndex(row => title(row.malware) === "Mimikatz" && title(row.domain) === "c2-demo-01.example.com");
+    if (demoPath >= 0) $("#investigation-choice").value = String(demoPath);
     $("#investigation-results").innerHTML = results.length ? results.map(row => {
       const steps = [
         ["Actor", row.actor], ["USES link", row.uses],

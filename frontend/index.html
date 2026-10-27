@@ -51,10 +51,11 @@
       <section id="search" class="panel" role="tabpanel" aria-labelledby="tab-search">
         <div class="section-heading"><div><p class="eyebrow">Find intelligence</p><h2>Threat search</h2></div></div>
         <form id="search-form" class="toolbar">
-          <label class="sr-only" for="search-term">Search terms</label><input id="search-term" placeholder="Search actor, malware, technique, CVE, IP, domain…" required>
+          <label class="sr-only" for="search-term">Search terms</label><input id="search-term" value="APT28" placeholder="Search actor, malware, technique, CVE, IP, domain…" required>
           <label class="sr-only" for="search-type">Entity type</label><select id="search-type"><option value="">All entity types</option></select>
           <button>Search</button>
         </form>
+        <p class="meta demo-hint">APT28 is ready. Press Enter to run the search.</p>
         <div id="search-results" class="results" role="status" aria-live="polite"></div>
       </section>
 
@@ -62,9 +63,10 @@
         <div class="section-heading"><div><p class="eyebrow">Connected context</p><h2>Graph explorer</h2></div></div>
         <form id="graph-form" class="toolbar">
           <label class="sr-only" for="graph-type">Entity type</label><select id="graph-type"></select>
-          <label class="sr-only" for="graph-id">Stable ID</label><input id="graph-id" placeholder="Stable ID, e.g. G0006" required>
+          <label class="sr-only" for="graph-id">Stable ID</label><input id="graph-id" value="G0007" placeholder="Stable ID, e.g. G0007" required>
           <button>Explore</button>
         </form>
+        <p class="meta demo-hint">APT28 (G0007) is ready. Press Enter to explore it, then choose 3D view.</p>
         <div class="toolbar graph-controls">
           <label>Relationship <select id="graph-relationship"><option value="">All types</option></select></label>
           <label>Link provenance <select id="graph-provenance"><option value="all">All links</option><option value="real">Real links only</option><option value="synthetic">Synthetic links only</option></select></label>
@@ -72,12 +74,15 @@
           <label>Name contains <input id="graph-search" placeholder="Optional text" maxlength="100"></label>
           <label>Minimum confidence <input id="graph-confidence" type="number" min="0" max="100" placeholder="Any"></label>
           <label>Evidence since <input id="graph-date" type="date"></label>
-          <label>Connections per page <select id="graph-page-size"><option value="12">12</option><option value="25">25</option><option value="50">50</option></select></label>
+          <label>Connections per page <select id="graph-page-size"><option value="12">12</option><option value="25" selected>25</option><option value="50">50</option></select></label>
           <button type="button" id="graph-apply" class="secondary">Apply filters</button>
         </div>
         <article class="graph-card">
+          <div class="graph-view-controls" role="group" aria-label="Graph display mode"><button type="button" id="graph-view-2d" class="secondary active" aria-pressed="true">2D view</button><button type="button" id="graph-view-3d" class="secondary" aria-pressed="false">3D view</button><span class="meta">Use the same graph data in either view.</span></div>
           <div class="graph-zoom"><button type="button" id="graph-zoom-in" class="secondary">Zoom in</button><button type="button" id="graph-zoom-out" class="secondary">Zoom out</button><button type="button" id="graph-zoom-reset" class="secondary">Reset view</button></div>
           <svg id="graph" viewBox="0 0 900 520" role="img" aria-label="Entity relationship graph"></svg>
+          <canvas id="graph-3d" role="img" tabindex="0" aria-label="Rotatable three-dimensional entity relationship graph" aria-describedby="graph-3d-hint" hidden></canvas>
+          <p id="graph-3d-hint" class="meta graph-3d-hint" hidden>Drag to rotate, scroll to zoom, and click a node to explore. Keyboard users can inspect and explore every connection in the list below.</p>
           <div id="graph-details" class="graph-details">Choose an entity to display its immediate neighborhood.</div>
           <div class="graph-list"><h3>Graph connections (keyboard accessible)</h3><ul id="graph-connections"></ul></div>
           <div class="graph-pagination"><button type="button" id="graph-prev" class="secondary" disabled>Previous</button><span id="graph-page" aria-live="polite">Explore an entity to see connections.</span><button type="button" id="graph-next" class="secondary" disabled>Next</button></div>
@@ -103,12 +108,12 @@
           <p class="meta">Choose an allowed direction and type. New links are synthetic even when an endpoint is a real imported entity.</p>
           <form id="relationship-form" class="form-grid">
             <label class="wide">Allowed pattern<select id="relationship-pattern"></select></label>
-            <label>From ID<input id="relationship-from-id" required></label>
-            <label>To ID<input id="relationship-to-id" required></label>
-            <label>First seen (optional)<input id="relationship-first-seen" type="datetime-local"></label>
-            <label>Last seen (optional)<input id="relationship-last-seen" type="datetime-local"></label>
-            <label>Confidence 0–100 (optional)<input id="relationship-confidence" type="number" min="0" max="100"></label>
-            <label>Confidence basis (optional)<input id="relationship-confidence-basis" maxlength="200"></label>
+            <label>From ID<input id="relationship-from-id" value="SYN-IP-001" required></label>
+            <label>To ID<input id="relationship-to-id" value="SYN-DOMAIN-002" required></label>
+            <label>First seen (optional)<input id="relationship-first-seen" type="datetime-local" value="2026-10-01T10:00"></label>
+            <label>Last seen (optional)<input id="relationship-last-seen" type="datetime-local" value="2026-10-02T10:00"></label>
+            <label>Confidence 0–100 (optional)<input id="relationship-confidence" type="number" min="0" max="100" value="70"></label>
+            <label>Confidence basis (optional)<input id="relationship-confidence-basis" maxlength="200" value="Classroom example only"></label>
             <label class="wide">Evidence URL (optional)<input id="relationship-evidence-url" type="url" placeholder="https://..."></label>
             <div class="actions"><button type="button" id="relationship-create">Create link</button></div>
             <label class="wide">Relationship ID for inspection or deletion<input id="relationship-id" placeholder="MANUAL-…"></label>
@@ -121,16 +126,17 @@
       <section id="investigate" class="panel" role="tabpanel" aria-labelledby="tab-investigate">
         <div class="section-heading"><div><p class="eyebrow">Multi-hop traversal</p><h2>Actor → Malware → IP → Domain</h2></div></div>
         <form id="investigation-form" class="toolbar">
-          <label class="sr-only" for="actor-name">Threat actor name</label><input id="actor-name" placeholder="Threat actor name" required>
+          <label class="sr-only" for="actor-name">Threat actor name</label><input id="actor-name" value="APT28" placeholder="Threat actor name" required>
           <button>Investigate</button>
         </form>
+        <p class="meta demo-hint">APT28 is ready. Press Enter to find its demonstration paths.</p>
         <p class="meta">Results mix documented ATT&amp;CK facts and synthetic demonstration links. Inspect every step before drawing a conclusion.</p>
         <div id="investigation-results" class="results" role="status" aria-live="polite"></div>
         <article class="card saved-investigations">
           <h3>Shared investigation reports</h3>
           <p class="meta">Save a snapshot with every node and link's provenance. Signed-in teammates can read shared reports.</p>
           <label for="investigation-choice">Path to save</label><select id="investigation-choice" disabled><option>Run an investigation first</option></select>
-          <label for="investigation-note">Your note</label><textarea id="investigation-note" placeholder="What does this example show?"></textarea>
+          <label for="investigation-note">Your note</label><textarea id="investigation-note" placeholder="What does this example show?">The APT28 to Mimikatz link is sourced to MITRE ATT&amp;CK. The IP and domain links are synthetic demonstration data, not an observed incident.</textarea>
           <div class="actions"><button type="button" id="investigation-save" disabled>Save result</button><button type="button" id="investigation-export" class="secondary" disabled>Export report</button></div>
           <div id="saved-investigations" class="results" aria-live="polite"></div>
         </article>
@@ -145,10 +151,11 @@
             <label>Start type<select id="path-from-type"></select></label>
             <label>Start ID<input id="path-from-id" value="G0007" required></label>
             <label>End type<select id="path-to-type"></select></label>
-            <label>End ID<input id="path-to-id" required></label>
+            <label>End ID<input id="path-to-id" value="SYN-DOMAIN-001" required></label>
             <label>Maximum hops<input id="path-hops" type="number" min="1" max="6" value="6" required></label>
             <div class="actions"><button>Find path</button></div>
           </form>
+          <p class="meta demo-hint">APT28 to the example domain is ready. Press Enter in an ID field to find the path.</p>
           <div id="path-results" class="results" role="status" aria-live="polite"></div>
         </article>
         <article class="card analytics-block">
@@ -204,6 +211,7 @@
     </main>
 
     <div id="toast" class="toast" role="status"></div>
+    <script src="/static/graph3d.js"></script>
     <script src="/static/app.js"></script>
   </body>
 </html>
