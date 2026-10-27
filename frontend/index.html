@@ -31,7 +31,6 @@
       <button id="tab-manage" class="tab" role="tab" aria-controls="manage" aria-selected="false" data-panel="manage">Manage Data</button>
       <button id="tab-investigate" class="tab" role="tab" aria-controls="investigate" aria-selected="false" data-panel="investigate">Investigation</button>
       <button id="tab-analytics" class="tab" role="tab" aria-controls="analytics" aria-selected="false" data-panel="analytics">Analytics</button>
-      <button id="tab-evaluation" class="tab" role="tab" aria-controls="evaluation" aria-selected="false" data-panel="evaluation">Evaluation</button>
       <button id="tab-admin" class="tab" role="tab" aria-controls="admin" aria-selected="false" data-panel="admin" hidden>Admin</button>
     </nav>
 
@@ -176,22 +175,6 @@
           </form>
           <div id="degree-results" class="results" role="status" aria-live="polite"></div>
         </article>
-      </section>
-
-      <section id="evaluation" class="panel" role="tabpanel" aria-labelledby="tab-evaluation">
-        <div class="section-heading"><div><p class="eyebrow">Analyst study</p><h2>Investigation tasks</h2></div></div>
-        <p class="meta">Answer the same evidence questions using either the graph or a short reference excerpt. The app records answer accuracy and time; compare the modes as a small usability study, not a causal claim.</p>
-        <article class="card analytics-block">
-          <label>Mode <select id="evaluation-mode"><option value="graph">Use CyberTrace graph</option><option value="reference">Use reference text</option></select></label>
-          <button type="button" id="evaluation-start">Start task</button>
-          <div id="evaluation-task" class="results" aria-live="polite"></div>
-          <form id="evaluation-form" hidden>
-            <label>Answer <input id="evaluation-answer" required maxlength="300"></label>
-            <button>Submit answer</button>
-          </form>
-          <div id="evaluation-feedback" class="results" aria-live="polite"></div>
-        </article>
-        <article class="card analytics-block"><h3>Study summary</h3><button type="button" id="evaluation-summary-button" class="secondary">Refresh summary</button><div id="evaluation-summary" class="results"></div></article>
       </section>
 
       <section id="admin" class="panel" role="tabpanel" aria-labelledby="tab-admin">

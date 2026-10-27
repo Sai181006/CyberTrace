@@ -490,53 +490,6 @@ $("#degree-form").addEventListener("submit", async event => {
   } catch (error) { output.textContent = error.message; toast(error.message, true); }
 });
 
-let evaluationTasks = [];
-let evaluationIndex = -1;
-let evaluationStarted = 0;
-$("#evaluation-start").addEventListener("click", async () => {
-  try {
-    const mode = $("#evaluation-mode").value;
-    if (!evaluationTasks.length || evaluationIndex >= evaluationTasks.length - 1) {
-      evaluationTasks = (await api(`/api/evaluation/tasks?mode=${encodeURIComponent(mode)}`)).tasks;
-      evaluationIndex = -1;
-    }
-    evaluationIndex += 1;
-    const task = evaluationTasks[evaluationIndex];
-    if (!task) return;
-    $("#evaluation-task").replaceChildren();
-    const question = document.createElement("p"); question.textContent = `${evaluationIndex + 1} of ${evaluationTasks.length}: ${task.question}`;
-    $("#evaluation-task").append(question);
-    if (task.reference_context) {
-      const reference = document.createElement("p"); reference.className = "notice"; reference.textContent = task.reference_context;
-      $("#evaluation-task").append(reference);
-    }
-    $("#evaluation-feedback").textContent = "";
-    $("#evaluation-answer").value = "";
-    $("#evaluation-form").hidden = false;
-    $("#evaluation-start").textContent = "Next task";
-    evaluationStarted = performance.now();
-  } catch(error) { toast(error.message, true); }
-});
-$("#evaluation-mode").addEventListener("change", () => { evaluationTasks = []; evaluationIndex = -1; $("#evaluation-form").hidden = true; $("#evaluation-start").textContent = "Start task"; });
-$("#evaluation-form").addEventListener("submit", async event => {
-  event.preventDefault();
-  const task = evaluationTasks[evaluationIndex]; if (!task) return;
-  try {
-    const duration_seconds = Math.min(3600, (performance.now() - evaluationStarted) / 1000);
-    const data = await api("/api/evaluation/responses", {method:"POST", body:JSON.stringify({task_id:task.id,mode:$("#evaluation-mode").value,answer:$("#evaluation-answer").value,duration_seconds})});
-    $("#evaluation-feedback").textContent = `${data.result.correct ? "Correct" : "Not correct"}. ${data.explanation} Time: ${duration_seconds.toFixed(1)} seconds.`;
-    $("#evaluation-form").hidden = true;
-    loadEvaluationSummary();
-  } catch(error) { toast(error.message, true); }
-});
-async function loadEvaluationSummary() {
-  try {
-    const data = await api("/api/evaluation/summary");
-    $("#evaluation-summary").textContent = data.summary.length ? data.summary.map(row => `${row.mode}: ${row.responses} responses · ${Math.round(row.accuracy * 100)}% correct · ${row.avg_seconds}s average`).join(" | ") : "No study responses yet.";
-  } catch(error) { $("#evaluation-summary").textContent = error.message; }
-}
-$("#evaluation-summary-button").addEventListener("click", loadEvaluationSummary);
-
 async function loadUsers() {
   try {
     const users = (await api("/api/admin/users")).users;
